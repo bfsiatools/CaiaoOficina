@@ -1,0 +1,3 @@
+import { it,expect } from 'vitest';
+import { handleRevalidation } from '../src/lib/catalog/revalidation';
+it('unauthenticated requests cannot invalidate catalog while an authorized POST can',async()=>{let invalidated=false;const secret='local-test-secret';expect((await handleRevalidation(new Request('https://site.test/api/internal/revalidate',{method:'POST'}),secret,()=>{invalidated=true;})).status).toBe(401);expect(invalidated).toBe(false);expect((await handleRevalidation(new Request('https://site.test/api/internal/revalidate',{method:'POST',headers:{Authorization:`Bearer ${secret}`}}),secret,()=>{invalidated=true;})).status).toBe(204);expect(invalidated).toBe(true);});
