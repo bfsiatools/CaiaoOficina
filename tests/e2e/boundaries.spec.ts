@@ -1,0 +1,3 @@
+import { test,expect } from '@playwright/test';
+test('internal invalidation rejects missing and wrong credentials',async({request})=>{expect((await request.post('/api/internal/revalidate')).status()).toBe(401);expect((await request.post('/api/internal/revalidate',{headers:{authorization:'Bearer invalid'}})).status()).toBe(401);});
+test('go never accepts arbitrary destination and non-POST events are rejected',async({request})=>{const response=await request.get('/go/not-a-real-product?url=https://evil.test',{maxRedirects:0});expect([404,503]).toContain(response.status());expect(response.headers()['location']).toBeUndefined();expect((await request.get('/api/events')).status()).toBe(405);});
