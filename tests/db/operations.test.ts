@@ -2,11 +2,18 @@ import { it, expect, beforeAll, afterAll } from 'vitest';
 import { randomUUID } from 'node:crypto';
 import type { PGlite } from '@electric-sql/pglite';
 import { createDatabase } from './harness';
+import { eventToDatabase } from '../../src/lib/tracking/server';
 let db:PGlite;
 beforeAll(async()=>{db=await createDatabase();});afterAll(async()=>{await db?.close();});
 function row(key:string){const id=randomUUID();return {id,import_key:key,slug:key,name:key,short_description:'Descrição fornecida',image_path:`${id}/${'a'.repeat(64)}.webp`,image_alt:key,image_width:500,image_height:500,status:'active',sort_order:0,category_slugs:['ferramentas-e-reparos'],link:{id:randomUUID(),affiliate_url:'https://meli.la/AAA'}};}
 async function batch(rows:unknown[]){return (await db.query<{result:{created:number;updated:number;ignored:number}}>('select public.apply_product_batch($1,$2::jsonb) as result',[randomUUID(),JSON.stringify(rows)])).rows[0].result;}
 it('exports the RPC contract before any runtime depends on it',async()=>{const result=await db.query("select proname from pg_proc where pronamespace='public'::regnamespace and proname in ('apply_product_batch','get_public_catalog','replace_affiliate_link','record_click_event')");expect(result.rows).toHaveLength(4);});
+it('server event mapping inserts redirect placement with server quality and supplied UUID',async()=>{
+ const r=row('server-event');await batch([r]);const eventId=randomUUID();
+ const value=eventToDatabase({eventId,eventType:'product_click',productId:r.id,affiliateLinkId:r.link.id,pagePath:'/go/server-event',placement:'redirect',ctaId:'buy',attributionMethod:'unknown'},'test');
+ const result=await db.query<{result:string}>('select public.record_click_event($1::jsonb) as result',[JSON.stringify(value)]);expect(result.rows[0].result).toBe('inserted');
+ const stored=await db.query<{quality:string}>('select quality from public.click_events where event_id=$1',[eventId]);expect(stored.rows[0].quality).toBe('test');
+});
 it('imports atomically, retries without change and detects stale writes',async()=>{
  const r=row('batch-one');expect(await batch([r])).toEqual(expect.objectContaining({created:1,updated:0,ignored:0}));
  expect(await batch([r])).toEqual(expect.objectContaining({created:0,updated:0,ignored:1}));
