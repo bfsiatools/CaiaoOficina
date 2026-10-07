@@ -13,6 +13,7 @@ export function buildImportPlan(manifest:ImportManifest,existing:ImportState[]) 
     const product={...source.product};let link=source.link;let categories=source.category_slugs;let conflict=false;
     if(current) {
       product.id=current.product.id;product.slug=current.product.slug;
+      if(!source.appliedSource||!source.appliedState){const matches=Object.keys(product).every(k=>equal(product[k],current.product[k]))&&equal(normalizedLink(link),normalizedLink(current.link))&&equal(sorted(categories),sorted(current.category_slugs));if(!matches){errors.push({key,error:'Baseline ausente; divergência editorial exige conciliação explícita'});continue;}}
       for(const field of Object.keys(source.product).filter(f=>!['id','slug','import_key'].includes(f))) {
         if(source.appliedSource&&equal(source.product[field],source.appliedSource.product[field])) product[field]=current.product[field];
         else if(source.appliedState&&!equal(current.product[field],source.appliedState.product[field])&&!equal(current.product[field],source.product[field])) conflict=true;
