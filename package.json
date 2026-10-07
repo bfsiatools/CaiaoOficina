@@ -23,18 +23,22 @@
     "import:rollback": "tsx scripts/rollback-import.ts"
   },
   "dependencies": {
-    "@next/env": "16.4.0",
     "@supabase/supabase-js": "2.117.3",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "server-only": "0.0.1",
     "sharp": "0.35.5",
-    "zod": "4.6.5"
+    "tailwindcss": "4.3.3",
+    "zod": "4.6.5",
+    "@next/env": "16.4.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@electric-sql/pglite": "0.5.8",
+    "@fontsource/archivo": "5.3.0",
     "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.3.3",
     "@types/node": "24.10.0",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

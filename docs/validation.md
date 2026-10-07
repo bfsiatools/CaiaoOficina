@@ -1,5 +1,9 @@
 # Evidência em 2026-10-07
 
+## Integração consolidada em main
+
+Frontend do Claude e backend do Codex unidos: 295 testes locais e oito E2E PASS; lint/typecheck/build e scanner de 15 chunks PASS. Home/layout/CSS do Claude preservados integralmente. Busca, filtros, imagens, rotas de produto/categoria, /go e beacon delegado exercitados em localhost:3000 iniciado por Bernardo. Banco confirmou eventos test com parâmetros e referências corretas. Apply idempotente com 47 ignored; 47 imagens públicas baixadas e com hash/associação conferidos novamente. Detalhes em [integration-2026-10-07.md](integration-2026-10-07.md). A evidência abaixo descreve a entrega anterior do backend.
+
 ## Estado real
 
 | Medida | Resultado |

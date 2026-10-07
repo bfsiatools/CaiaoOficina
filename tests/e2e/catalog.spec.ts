@@ -3,8 +3,11 @@ import { readFile } from 'node:fs/promises';
 import type { ImportManifest } from '../../scripts/lib/import-plan';
 test('47 real products and three redirects preserve exact destinations',async({page,request})=>{
  await page.goto('/');await expect(page.locator('[data-product-slug]')).toHaveCount(47);
- const slugs=await page.locator('[data-product-slug]').evaluateAll(nodes=>nodes.slice(0,3).map(n=>n.getAttribute('data-product-slug')!));
  const manifest=JSON.parse(await readFile('private/imports/v1/manifest.json','utf8')) as ImportManifest;
+ const compressor=manifest.rows.find(row=>String(row.product.name).toLowerCase().includes('calibrador compressor'))!;
+ const otherCategory=manifest.rows.find(row=>row.category_slugs?.some(category=>!compressor.category_slugs?.includes(category)))!;
+ const second=manifest.rows.find(row=>row.product.id!==compressor.product.id&&row.product.id!==otherCategory.product.id)!;
+ const slugs=[compressor,second,otherCategory].map(row=>String(row.product.slug));
  for(const slug of slugs){const result=await request.get(`/go/${slug}?utm_source=e2e&content_id=preview-test`,{maxRedirects:0});expect(result.status()).toBe(302);expect(result.headers()['cache-control']).toContain('no-store');expect(result.headers()['location']).toBe(manifest.rows.find(r=>r.product.slug===slug)?.link?.affiliate_url);}
  const missing=await request.get('/go/not-a-real-product',{maxRedirects:0});expect(missing.status()).toBe(404);
 });
@@ -12,5 +15,5 @@ test('normal product anchor works without JavaScript and external requests are i
  const context=await browser.newContext({javaScriptEnabled:false,baseURL});const page=await context.newPage();let destination='';
  // Playwright routing intercepts the initial request, not subsequent redirects.
  await page.route('**/go/**',async route=>{const response=await route.fetch({maxRedirects:0});expect(response.status()).toBe(302);destination=response.headers()['location'];await route.fulfill({status:200,contentType:'text/html',body:'Destino de afiliado interceptado no teste'});});
- await page.goto('/');await page.locator('[data-product-slug] a[rel="nofollow sponsored"]').first().click();await expect.poll(()=>destination).not.toBe('');await context.close();
+ await page.goto('/');await page.locator('[data-product-slug] a[data-cta-mode="redirect"]').first().click();await expect.poll(()=>destination).not.toBe('');await context.close();
 });

@@ -1,10 +1,10 @@
-# Caião da Oficina — backend V1
+# Caio da Oficina — frontend e backend V1
 
-Checkout de implementação: `C:\dev\CaiaoOficina`, branch `codex/backend-v1`. Os materiais originais no OneDrive foram preservados. Node 24, Next.js App Router e Supabase; sem painel administrativo ou autenticação na V1.
+Fonte oficial: `C:\dev\CaiaoOficina`, branch `main`. A integração preserva o frontend do Claude e o backend do Codex. As branches/worktrees originais permanecem como referências históricas; não são versões oficiais de execução. Os materiais originais no OneDrive foram preservados. Node 24, Next.js App Router e Supabase; sem painel administrativo ou autenticação na V1.
 
 ## Estado em 2026-10-07
 
-47 produtos reais **ativos** no Supabase, com 47 versões de link e 47 WebP no Storage. Importação e segunda execução aplicadas; repetição sem alterações. Catálogo e três redirects conferidos em localhost; navegação sem JavaScript validada. Esta entrega prepara o backend; lançamento público e interface definitiva são etapas seguintes.
+47 produtos reais **ativos** no Supabase, com 47 versões de link e 47 WebP no Storage. Home, design system, busca/chips, editorial, páginas e assets do Claude usam a DAL do Codex. Um único coletor registra os eventos. QA visual final e lançamento público continuam como etapas seguintes. Ver [auditoria de integração](docs/integration-2026-10-07.md).
 
 ## Configuração
 
@@ -38,6 +38,7 @@ Playwright não inicia servidor. Na primeira instalação, execute `npx playwrig
 - [Operação e lançamento](docs/operations.md)
 - [Contrato para o frontend](docs/frontend-handoff.md)
 - [Evidência e limitações da validação](docs/validation.md)
+- [Integração das branches e reconciliação dos 47 produtos](docs/integration-2026-10-07.md)
 - [Plano original aprovado](docs/superpowers/plans/2026-10-07-caiao-oficina-backend.md)
 
 `private/` contém entradas reais, manifesto com checkpoint editorial, imagens e relatórios operacionais. É ignorado pelo Git; faça backup privado. Fixtures aparecem apenas nos testes, nunca no catálogo final.

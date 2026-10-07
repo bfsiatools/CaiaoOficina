@@ -1,6 +1,6 @@
 # Contrato para o Claude Code
 
-Backend em `C:\dev\CaiaoOficina`, branch `codex/backend-v1`; frontend tem worktree próprio `C:\dev\CaiaoOficina-fe`, branch `claude/frontend-v1`. Integre os commits finais do backend no worktree de frontend sem sobrescrever seus arquivos. OneDrive contém os materiais originais. Banco: 47 produtos reais ativos, 47 links e 47 imagens no Storage, homologados em localhost. Interface deste branch é base funcional mínima descartável; layout/page/components finais pertencem ao frontend.
+Fonte oficial consolidada em `C:\dev\CaiaoOficina`, branch `main`. O frontend do Claude já está integrado ao backend do Codex; próximos ajustes visuais devem partir de `main`, evitando reconstruir a integração no worktree antigo. `codex/backend-v1` e `claude/frontend-v1` foram preservadas como referências. OneDrive contém os materiais originais. Banco: 47 produtos reais ativos, 47 links e 47 imagens no Storage. Ver [auditoria de integração](integration-2026-10-07.md).
 
 ```text
 Construir a interface final do Caião da Oficina usando a DAL existente.

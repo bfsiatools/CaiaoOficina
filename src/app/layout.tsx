@@ -1,5 +1,45 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import Link from 'next/link';
-export const metadata:Metadata={title:'Caião da Oficina',description:'Produtos e ferramentas selecionados pelo Caião da Oficina.'};
-export default function Layout({children}:{children:ReactNode}){return <html lang="pt-BR"><body><header><Link href="/" prefetch={false}>Caião da Oficina</Link></header><main>{children}</main><footer><p>Links de afiliado: posso receber comissão pelas compras realizadas pelos links deste site.</p></footer></body></html>;}
+import './globals.css';
+import { ImageFallback } from '@/components/behaviors/image-fallback';
+import { SkipLink } from '@/components/layout/skip-link';
+import { SITE } from '@/content/site';
+import { buildJsonLd, serializeJsonLd } from '@/features/seo/json-ld';
+import { ClickTracker } from '@/features/tracking/click-tracker';
+import { archivo } from './fonts';
+
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE.title, template: `%s | ${SITE.name}` },
+  description: SITE.description,
+  alternates: { canonical: '/' },
+  openGraph: { type: 'website', locale: 'pt_BR', siteName: SITE.name, title: SITE.title, description: SITE.description, url: '/' },
+  twitter: { card: 'summary_large_image', title: SITE.title, description: SITE.description },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F3F4F5' },
+    { media: '(prefers-color-scheme: dark)', color: '#101316' },
+  ],
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="pt-BR" className={archivo.variable}>
+      <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildJsonLd(SITE_URL)) }} />
+        <SkipLink />
+        {children}
+        <ClickTracker />
+        <ImageFallback />
+      </body>
+    </html>
+  );
+}
