@@ -7,7 +7,7 @@ export const COPY = {
   cta: { label: 'Ver no Mercado Livre', sr: (name: string) => `, ${name} (abre o Mercado Livre)` },
   disclosure: {
     short: 'Publi · link de afiliado',
-    grid: 'Os links de produto são de afiliado do Mercado Livre: se você comprar por eles, o Caio da Oficina recebe uma comissão, sem custo extra para você.',
+    grid: 'Links de afiliado do Mercado Livre: se você comprar, o Caio da Oficina recebe comissão, sem custo extra.',
   },
   catalog: { title: 'Todos os achados', count: (shown: number, total: number) => (shown === total ? `${total} produtos` : `${shown} de ${total}`), all: 'Todos', none: 'Ainda não há produtos por aqui.', filterLabel: 'Filtrar por categoria' },
   search: { label: 'Buscar produto', placeholder: 'Buscar produto', clear: 'Limpar busca', clearAll: 'Limpar filtros' },

@@ -24,19 +24,19 @@ export function ProductCta({ product, cta, placement, ctaId, size = 'md', varian
       href={cta.href}
       rel={cta.rel}
       target={cta.target}
-      variant={variant === 'primary' ? 'primary' : 'text'}
+      variant={variant}
       size={size}
       track={{ event: 'product_click', placement, ctaId, productId: product.id, linkId: product.offer?.id, mode: cta.mode }}
       className={cn(
         stretched && 'after:absolute after:inset-0 after:rounded-card',
-        variant === 'quiet' && 'min-h-11 w-full justify-between text-sm text-ink no-underline',
+        variant === 'quiet' && 'label-face min-h-11 w-full justify-between gap-1 whitespace-nowrap text-sm',
         className,
       )}
     >
       <span>{COPY.cta.label}</span>
       <ArrowUpRightIcon
-        width={18}
-        height={18}
+        width={variant === 'quiet' ? 16 : 18}
+        height={variant === 'quiet' ? 16 : 18}
         className={cn(
           'shrink-0 transition-transform duration-(--duration-state) ease-out motion-safe:group-active:-translate-y-0.5 motion-safe:group-active:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5',
           variant === 'quiet' && 'text-accent-ink',

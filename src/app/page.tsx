@@ -62,7 +62,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Par
     ...(pinned ? [{ product: pinned, cta: ctaFor(pinned), label: COPY.today.pinned, pinned: true, live: true }] : []),
     ...picks
       .filter((v) => v.id !== pinned?.id)
-      .map((v) => ({ product: v, cta: ctaFor(v), label: COPY.pickDate(pickDateLabel(v.dailyPickDate ?? today, today)), live: true })),
+      .map((v) => ({ product: v, cta: ctaFor(v), label: v.dailyPickDate === today ? '' : COPY.pickDate(pickDateLabel(v.dailyPickDate ?? today, today)), live: true })),
     ...featured.map((v) => ({ product: v, cta: ctaFor(v), label: COPY.today.titleFallback })),
   ].slice(0, 3);
 
@@ -81,9 +81,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<Par
     <>
       <SiteHeader><SearchField /></SiteHeader>
       <main id="conteudo">
-        <PageContainer className="flex flex-col gap-10 pb-14 md:gap-14">
+        <PageContainer className="flex flex-col gap-8 pb-14 md:gap-14">
           <CaioStrip />
-          <TodayPicks items={todayItems} title={picks.length > 0 || pinned ? COPY.today.title : COPY.today.titleFallback} />
+          <TodayPicks items={todayItems} title={picks.length > 0 || pinned ? COPY.today.title : COPY.today.titleFallback} live={picks.length > 0 || Boolean(pinned)} />
           <RecentVideos items={recent} />
           <WhatsAppStrip url={whatsappUrl} />
           {gridItems.length > 0 ? (

@@ -12,7 +12,7 @@ export function SpecReadout({ specs, size = 'sm', className }: { specs: readonly
         <li
           key={spec}
           className={cn(
-            'spec-text inline-flex items-center rounded-plate bg-plate text-readout',
+            'spec-text inline-flex items-center rounded-plate bg-plate text-readout ring-1 ring-inset ring-plate-edge',
             size === 'md' ? 'h-7 px-2.5 text-sm' : 'h-6 px-2 text-caption',
           )}
         >
