@@ -22,6 +22,8 @@
   /* Placa de leitura (display do instrumento): igual nos dois temas. */
   --color-plate: #15191D;
   --color-readout: #22D67A;
+  --color-plate-ink: #ECEFF1;
+  --color-plate-ink-2: #A9B2BA;
 
   --text-caption: 0.75rem;  --text-caption--line-height: 1rem;
   --text-sm: 0.8125rem;     --text-sm--line-height: 1.125rem;
@@ -154,3 +156,6 @@ html[data-searching="true"] .hide-on-search { display: none; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Sobre a placa grafite o foco usa o verde da leitura (grafite sobre grafite sumiria). */
+.on-plate :where(a, button):focus-visible { outline-color: var(--color-readout); }

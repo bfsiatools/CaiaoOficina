@@ -10,5 +10,5 @@ vi.mock('next/image', () => ({
 }));
 
 vi.mock('next/link', () => ({
-  default: ({ href, children, prefetch: _prefetch, ...rest }: Record<string, unknown> & { children?: unknown }) => createElement('a', { href, ...rest }, children as never),
+  default: ({ href, children, ...rest }: Record<string, unknown> & { children?: unknown }) => { delete rest.prefetch; return createElement('a', { href, ...rest }, children as never); },
 }));
