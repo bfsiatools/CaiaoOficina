@@ -12,6 +12,8 @@ CTA é anchor normal; sendBeacon e fallback fetch keepalive não bloqueiam naveg
 
 GET/HEAD: consulta snapshot fresco no banco (sem cache compartilhado), valida produto publicável e URL oficial salva. Nunca usa URL recebida em query. GET retorna 302 com Location exatamente preservado e Cache-Control no-store. Inexistente/inativo: 404. DB/URL inválida ou flag desligada: 503. HEAD, bots e prefetch não registram evento. after() executa tracking com timeout de 1500ms após a resposta; falha de tracking mantém redirect.
 
+Falhas de catálogo/destino/tracking emitem códigos estruturados sanitizados, sem URL, credencial, referrer ou payload de campanha. O logger também é isolado: sua falha não impede a navegação.
+
 UTMs limitadas são transportadas apenas em navegação interna; não são anexadas ao link de afiliado. Destino permanece `meli.la` ou `mercadolivre.com.br` permitido, HTTPS, sem credenciais/porta arbitrária/CRLF.
 
 Flag `AFFILIATE_REDIRECT_ENABLED` permite homologar preview. Em produção, só habilite após confirmar compatibilidade com o programa de afiliados. Enquanto desligada, CTA usa o link direto e coleta via cliente.
