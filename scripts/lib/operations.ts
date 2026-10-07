@@ -1,9 +1,13 @@
 import { isDeepStrictEqual as equal } from 'node:util';
 import type { ImportState,ManifestRow } from './import-plan';
 export function imagesToUpload(rows:{action:string;payload:Record<string,unknown>;source:ManifestRow}[]){return rows.filter(row=>row.action!=='ignored'&&row.payload.image_path&&row.payload.image_path===row.source.product.image_path);}
-export interface BatchReport {status:string;rows:{action:string;payload:Record<string,unknown>;before:ImportState|null}[];after?:ImportState[]}
+export interface BatchReport {proofVersion?:number;status:string;rows:{action:string;payload:Record<string,unknown>;before:ImportState|null}[];after?:ImportState[]}
+export function parseBatchProof(data:unknown,payloads:Record<string,unknown>[]){
+ const value=data as {after?:ImportState[];changed_keys?:string[]};if(!value||!Array.isArray(value.after)||!Array.isArray(value.changed_keys)||value.after.length!==payloads.length||new Set(value.after.map(s=>s.product?.import_key)).size!==payloads.length||value.after.some(s=>!payloads.some(p=>p.id===s.product?.id&&p.import_key===s.product?.import_key)||typeof s.product.updated_at!=='string'||!Array.isArray(s.category_slugs))||value.changed_keys.some(k=>!payloads.some(p=>p.import_key===k)))throw Error('RPC sem snapshot atômico válido');
+ return {after:value.after,changedKeys:value.changed_keys};
+}
 export function buildRollbackPlan(report:BatchReport,current:ImportState[]){
- if(report.status!=='committed'||!report.after)throw Error('Rollback exige relatório confirmado e estado posterior completo');
+ if(report.status!=='committed'||!report.after||report.proofVersion!==1)throw Error('Rollback exige relatório confirmado com snapshot atômico; relatório antigo exige revisão manual');
  const rows:Record<string,unknown>[]=[],errors:{key:string;error:string}[]=[];
  for(const entry of report.rows){if(entry.action==='ignored')continue;const key=String(entry.payload.import_key),expected=report.after.find(s=>s.product.import_key===key),now=current.find(s=>s.product.import_key===key);
   if(!expected||!now||!equal(expected,now)){errors.push({key,error:'Estado mudou após o lote; rollback recusado'});continue;}

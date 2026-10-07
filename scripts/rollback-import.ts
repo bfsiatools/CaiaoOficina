@@ -12,6 +12,6 @@ async function main(){
  if(plan.errors.length)throw Error('Rollback tem conflitos; revise o dry-run');if(!plan.rows.length)throw Error('Nenhuma linha elegível');
  const batchId=randomUUID(),result=await client.rpc('apply_product_batch',{p_batch_id:batchId,p_rows:plan.rows as Json});if(result.error)throw Error('Rollback transacional recusado: '+result.error.code);
  await mkdir('private/reports',{recursive:true});await writeFile(`private/reports/rollback-${batchId}.json`,JSON.stringify({source:args[index+1],batchId,result:result.data,cacheInvalidated:await revalidateCatalog()},null,2));
- console.log(JSON.stringify({mode:'apply',batchId,result:result.data}));
+ const summary=result.data as {created:number;updated:number;ignored:number};console.log(JSON.stringify({mode:'apply',batchId,result:{created:summary.created,updated:summary.updated,ignored:summary.ignored}}));
 }
 main().catch(error=>{console.error((error as Error).message);process.exitCode=1;});

@@ -9,7 +9,7 @@ import { validateAffiliateUrl } from '../src/lib/affiliate/urls';
 import { provisionStorage } from './provision-storage';
 import { revalidateCatalog } from './revalidate-catalog';
 import type { Json } from '../src/lib/supabase/database.types';
-import { imagesToUpload } from './lib/operations';
+import { imagesToUpload,parseBatchProof } from './lib/operations';
 import { parseProductsTxt } from './lib/parse-products';
 const args=process.argv.slice(2);const argument=(name:string)=>{const i=args.indexOf(name);return i<0?undefined:args[i+1];};
 const productSchema=z.object({id:z.uuid(),import_key:z.string().min(1).max(128),slug:z.string().min(1).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),name:z.string().min(1).max(200),short_description:z.string().min(1).max(500).nullable().optional(),image_path:z.string().regex(/^[0-9a-f-]{36}\/[0-9a-f]{64}\.webp$/).nullable().optional(),image_alt:z.string().min(1).max(250).nullable().optional(),image_width:z.number().int().positive().nullable().optional(),image_height:z.number().int().positive().nullable().optional(),status:z.enum(['active','inactive','out_of_stock','archived']).optional(),sort_order:z.number().int().nonnegative().optional(),featured_rank:z.number().int().nonnegative().nullable().optional(),daily_pick_date:z.iso.date().nullable().optional(),daily_pick_rank:z.number().int().nonnegative().optional()}).strict();
@@ -30,14 +30,15 @@ async function main(){
  if(!apply){console.log(JSON.stringify({mode:'dry-run',expected:manifest.expected,valid:plan.rows.length,...counts,errors}));if(errors.length)process.exitCode=plan.errors.length?3:2;return;}
  if(!plan.rows.length){process.exitCode=2;console.log(JSON.stringify({mode:'apply',imported:0,errors}));return;}
  const batchId=randomUUID();await mkdir('private/reports',{recursive:true});const reportFile=`private/reports/${batchId}.json`;
- const report={batchId,startedAt:new Date().toISOString(),expected:manifest.expected,rows:plan.rows.map(r=>({action:r.action,payload:r.payload,before:r.before})),errors,status:'prepared',result:undefined as unknown,after:undefined as unknown,cacheInvalidated:false};await writeFile(reportFile,JSON.stringify(report,null,2));
+ const report={batchId,startedAt:new Date().toISOString(),expected:manifest.expected,proofVersion:1,rows:plan.rows.map(r=>({action:r.action,payload:r.payload,before:r.before})),errors,status:'prepared',result:undefined as unknown,after:undefined as unknown,cacheInvalidated:false};await writeFile(reportFile,JSON.stringify(report,null,2));
  const uploads=imagesToUpload(plan.rows);
  if(uploads.length){const storage=await provisionStorage();for(const row of uploads){const file=path.resolve(root,row.source.preparedFile!);const bytes=await readFile(file);const result=await storage.storage.from('product-images').upload(String(row.payload.image_path),bytes,{contentType:'image/webp',cacheControl:'31536000',upsert:false});if(result.error&&!/already exists|duplicate/i.test(result.error.message))throw Error('Falha no upload: lote não aplicado');if(result.error){const existing=await storage.storage.from('product-images').download(String(row.payload.image_path));if(existing.error||createHash('sha256').update(Buffer.from(await existing.data.arrayBuffer())).digest('hex')!==path.basename(String(row.payload.image_path),'.webp'))throw Error('Objeto existente não corresponde ao hash');}}}
  const result=await client!.rpc('apply_product_batch',{p_batch_id:batchId,p_rows:plan.rows.map(r=>r.payload) as Json});if(result.error){report.status='failed';await writeFile(reportFile,JSON.stringify(report,null,2));process.exitCode=/conflict/i.test(result.error.message)?3:1;throw Error('Falha transacional da importação: '+result.error.code);}
  report.status='committed';report.result=result.data;await writeFile(reportFile,JSON.stringify(report,null,2));
- report.after=await readImportState(client!);
+ const proof=parseBatchProof(result.data,plan.rows.map(r=>r.payload));report.after=proof.after;for(const row of report.rows)if(!proof.changedKeys.includes(String(row.payload.import_key)))row.action='ignored';
+ await writeFile(reportFile,JSON.stringify(report,null,2));
  for(const row of plan.rows){row.source.appliedSource=structuredClone({product:row.source.product,link:row.source.link,category_slugs:row.source.category_slugs});row.source.appliedState=(report.after as ImportState[]).find(e=>e.product.import_key===row.payload.import_key);}
  await writeFile(manifestFile,JSON.stringify(manifest,null,2)+'\n');report.cacheInvalidated=await revalidateCatalog();await writeFile(reportFile,JSON.stringify(report,null,2)+'\n');
- console.log(JSON.stringify({mode:'apply',batchId,result:result.data,imported:plan.rows.length,errors,cacheInvalidated:report.cacheInvalidated,report:reportFile}));if(errors.length)process.exitCode=plan.errors.length?3:2;
+ const summary=result.data as {created:number;updated:number;ignored:number};console.log(JSON.stringify({mode:'apply',batchId,result:{created:summary.created,updated:summary.updated,ignored:summary.ignored},imported:plan.rows.length,errors,cacheInvalidated:report.cacheInvalidated,report:reportFile}));if(errors.length)process.exitCode=plan.errors.length?3:2;
 }
 main().catch(error=>{console.error(error instanceof Error?error.message:'Erro operacional');process.exitCode||=1;});

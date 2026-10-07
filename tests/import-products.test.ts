@@ -1,8 +1,9 @@
 import { describe,it,expect } from 'vitest';
 import { parseProductsTxt, makeSlug } from '../scripts/lib/parse-products';
 import { buildImportPlan } from '../scripts/lib/import-plan';
-import { prepareImage } from '../scripts/lib/images';
+import { prepareImage,prepareReportedImage } from '../scripts/lib/images';
 import sharp from 'sharp';
+it('validates report against original dimensions before shrinking large images',async()=>{const png=await sharp({create:{width:3000,height:2000,channels:3,background:'white'}}).png().toBuffer();const value=await prepareReportedImage(png,'12345678-1234-4234-8234-123456789012',{width:3000,height:2000});expect(value.width).toBe(1600);expect(value.height).toBe(1067);await expect(prepareReportedImage(png,'12345678-1234-4234-8234-123456789012',{width:100,height:100})).rejects.toThrow(/Dimensões/);});
 describe('real input parser',()=>{
  it('reads BOM, CRLF, pipe or the supplied colon format without rewriting links',()=>{const p=parseProductsTxt('\ufeffFerramenta Á | https://meli.la/AbCd\r\n\r\n===\r\nFerramenta B:https://meli.la/Zyx\r\n');expect(p.rows.map(r=>[r.name,r.url])).toEqual([['Ferramenta Á','https://meli.la/AbCd'],['Ferramenta B','https://meli.la/Zyx']]);expect(p.errors).toEqual([]);});
  it('deduplicates identical rows and refuses divergent names on one URL',()=>{const p=parseProductsTxt('A | https://meli.la/AbC\nA | https://meli.la/AbC\nB | https://meli.la/AbC');expect(p.rows).toHaveLength(0);expect(p.duplicates).toBe(1);expect(p.errors.length).toBeGreaterThan(0);});

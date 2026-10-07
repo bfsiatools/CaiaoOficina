@@ -24,6 +24,7 @@ export function buildImportPlan(manifest:ImportManifest,existing:ImportState[]) 
       else if(source.appliedState&&!equal(sorted(current.category_slugs),sorted(source.appliedState.category_slugs))&&!equal(sorted(current.category_slugs),sorted(source.category_slugs)))conflict=true;
     }
     if(conflict){errors.push({key,error:'Edição de origem conflita com edição editorial'});continue;}
+    if(current&&link&&!equal(normalizedLink(link),normalizedLink(current.link))){link={...link};delete link.id;}
     const unchanged=current&&Object.keys(product).every(k=>equal(product[k],current.product[k]))&&equal(normalizedLink(link),normalizedLink(current.link))&&equal(sorted(categories),sorted(current.category_slugs));
     rows.push({source,action:!current?'created':unchanged?'ignored':'updated',before:current??null,payload:{...product,category_slugs:categories,...(link?{link}:{}),...(current?{expected_updated_at:current.product.updated_at,expected_link_id:current.link?.id??null}:{})}});
   }
