@@ -3,7 +3,7 @@ import type { PGlite } from '@electric-sql/pglite';
 import { createDatabase } from './harness';
 let db: PGlite;
 beforeAll(async () => { db = await createDatabase(); });
-afterAll(async () => { await db.close(); });
+afterAll(async () => { await db?.close(); });
 it('stores product identity, relation history and events in six protected tables', async () => {
   const result = await db.query<{ count: number; secured: number }>("select count(*)::int as count, count(*) filter(where relrowsecurity)::int as secured from pg_class where relnamespace='public'::regnamespace and relname in ('products','categories','product_categories','affiliate_links','click_events','site_settings') and relkind='r'");
   expect(result.rows[0]).toEqual({ count: 6, secured: 6 });
