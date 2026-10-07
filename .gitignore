@@ -8,3 +8,8 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 supabase/.temp/
+
+# frontend: imagens reais copiadas só para QA local (nunca versionar)
+public/__dev/
+.impeccable/review/
+.impeccable/config.local.json

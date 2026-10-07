@@ -1,21 +1,51 @@
 {
-  "name": "caiao-oficina", "version": "0.1.0", "private": true, "type": "module",
-  "engines": { "node": ">=24 <25" },
+  "name": "caiao-oficina",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
-    "dev": "next dev", "build": "next build", "start": "next start",
-    "lint": "eslint .", "typecheck": "tsc --noEmit", "test": "vitest run",
-    "test:e2e": "playwright test", "import:products": "tsx scripts/import-products.ts",
-    "assets:prepare": "tsx scripts/prepare-assets.ts", "storage:provision": "tsx scripts/provision-storage.ts",
-    "links:replace": "tsx scripts/replace-affiliate-link.ts", "catalog:revalidate": "tsx scripts/revalidate-catalog.ts",
-    "events:maintain": "tsx scripts/maintain-events.ts", "import:rollback": "tsx scripts/rollback-import.ts"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "import:products": "tsx scripts/import-products.ts",
+    "assets:prepare": "tsx scripts/prepare-assets.ts",
+    "storage:provision": "tsx scripts/provision-storage.ts",
+    "links:replace": "tsx scripts/replace-affiliate-link.ts",
+    "catalog:revalidate": "tsx scripts/revalidate-catalog.ts",
+    "events:maintain": "tsx scripts/maintain-events.ts",
+    "import:rollback": "tsx scripts/rollback-import.ts"
   },
   "dependencies": {
-    "next": "16.4.0", "react": "19.3.0", "react-dom": "19.3.0",
-    "@supabase/supabase-js": "2.117.3", "zod": "4.6.5", "server-only": "0.0.1", "sharp": "0.35.5"
+    "@supabase/supabase-js": "2.117.3",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1",
+    "sharp": "0.35.5",
+    "tailwindcss": "4.3.3",
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "typescript": "5.9.3", "@types/node": "24.10.0", "@types/react": "19.3.0", "@types/react-dom": "19.3.0",
-    "vitest": "4.1.0", "@electric-sql/pglite": "0.5.8", "tsx": "4.23.15",
-    "eslint": "9.39.4", "eslint-config-next": "16.4.0", "@playwright/test": "1.63.0", "supabase": "2.120.0"
+    "@axe-core/playwright": "4.13.0",
+    "@electric-sql/pglite": "0.5.8",
+    "@fontsource/archivo": "5.3.0",
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.10.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.4.0",
+    "supabase": "2.120.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "4.1.0"
   }
 }
