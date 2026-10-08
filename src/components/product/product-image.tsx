@@ -7,7 +7,7 @@ import { PLACEHOLDER_SRC } from './constants';
 export type ImageVariant = 'tile' | 'achado' | 'capa' | 'frame';
 const SIZES: Record<ImageVariant, string> = {
   tile: '(min-width: 1024px) 260px, (min-width: 768px) 232px, (min-width: 360px) 46vw, 104px',
-  achado: '(min-width: 768px) 200px, 128px',
+  achado: '(min-width: 1024px) 360px, (min-width: 640px) 46vw, 86vw',
   capa: '144px',
   frame: '(min-width: 768px) 200px, 128px',
 };
@@ -16,27 +16,24 @@ const SIZES: Record<ImageVariant, string> = {
  * Painel neutro + `contain`: as fotos do Mercado Livre têm fundo branco e proporções extremas;
  * nada é cortado e o branco some no painel (multiply). Sem ampliação artificial.
  */
-export function ProductImage({ variant, image, frame, name, preload = false, dimmed = false, scan = false }: {
+export function ProductImage({ variant, image, frame, name, preload = false, dimmed = false }: {
   variant: ImageVariant;
   image: ProductImageView | null;
   frame?: StaticImageData | null;
   name: string;
   preload?: boolean;
   dimmed?: boolean;
-  scan?: boolean;
 }) {
   const panel = cn(
     'relative isolate overflow-hidden bg-tile',
     variant === 'frame' ? 'aspect-[9/16] rounded-card' : 'aspect-square',
     variant === 'tile' ? 'max-xs:size-[104px] max-xs:shrink-0 max-xs:rounded-card' : 'rounded-card',
   );
-  const beam = scan ? <span aria-hidden="true" className="scan-beam" style={{ ['--scan-distance' as string]: variant === 'frame' ? '228px' : '128px' }} /> : null;
 
   if (variant === 'frame' && frame) {
     return (
       <div className={panel}>
         <Image src={frame} alt={`Caio mostrando ${name}`} fill sizes={SIZES.frame} quality={85} preload={preload} className="object-cover" data-product-img />
-        {beam}
       </div>
     );
   }
@@ -59,7 +56,6 @@ export function ProductImage({ variant, image, frame, name, preload = false, dim
         className={cn('object-contain mix-blend-multiply', variant === 'tile' ? 'p-3.5' : 'p-2.5', dimmed && 'opacity-60 grayscale')}
         data-product-img
       />
-      {beam}
     </div>
   );
 }

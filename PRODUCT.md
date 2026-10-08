@@ -12,11 +12,11 @@ Pessoas no Brasil que acabaram de ver um vídeo curto (Instagram Reels, TikTok, 
 
 ## Product Purpose
 
-Portal de curadoria do Caio da Oficina: reúne os produtos que o Caio mostra nos vídeos e leva o visitante ao anúncio no Mercado Livre por link de afiliado. Sucesso = o visitante reconhece o produto do vídeo em segundos e toca em "Ver no Mercado Livre". Objetivo secundário: trazer a audiência para o WhatsApp para os próximos achados.
+Vitrine comercial do Caion da Oficina: reúne ferramentas e utilidades reais, facilita a descoberta e leva o visitante ao anúncio no Mercado Livre por link de afiliado. Sucesso = reconhecer um produto útil e tocar em "Conferir preço". WhatsApp aparece somente quando houver URL real habilitada.
 
 ## Positioning
 
-Uma marca de creator, não uma loja: um personagem com rosto e voz seleciona poucos produtos úteis de ferramenta, carro e casa e mostra cada um em vídeo. O site é a bancada onde ficam os achados que ele já mostrou, em ordem de data, sem preço inventado e sem urgência.
+Vitrine voltada à compra: hero comercial, fotos dos produtos, carrossel de destaques e CTAs evidentes. A referência enviada por Bernardo inspira a composição clara, o espaço e o amarelo; não copia a identidade da loja de móveis. Esta direção substituiu permanentemente a bancada discreta em 2026-10-07, após rejeição da primeira Home.
 
 ## Operating Context
 
@@ -31,21 +31,21 @@ Uma marca de creator, não uma loja: um personagem com rosto e voz seleciona pou
 - 47 produtos reais (confirmado). Cada um com 1 imagem de até 500 px (fundo branco do Mercado Livre), nome longo do anúncio, categoria e link oficial `meli.la`.
 - Saída para o Mercado Livre por link oficial direto ou por `/go/[slug]`, conforme a flag `AFFILIATE_REDIRECT_ENABLED` (decisão de Bernardo; a cláusula 1.8 do programa restringe modificar o link).
 - Termos do programa (ML 1.8, 1.10, 2.3, 5.3, 5.4): sem pop-up nem redirecionamento involuntário; sem comparação entre produtos; só informações presentes no anúncio; sem preço, estoque ou prazo que não estejam ativos na plataforma; domínio precisa ser aprovado como mídia.
-- Sem checkout, conta, avaliações, preços ou recomendação automática.
+- Sem checkout, conta, avaliações ou recomendação automática. Preços, descontos, estoque e prazos só entram com fonte real verificável e atualização; o catálogo atual não contém esses dados.
 - Undecided: responsável legal exibido (nome/CNPJ/e-mail); URL e tipo do WhatsApp; aprovação do domínio no programa; autorização de uso das imagens.
 
 ## Brand Commitments
 
-- Nome exibido: **Caio da Oficina**. Instagram `@caiodaoficina`.
+- Marca exibida: **Caion da Oficina**. Instagram informado por Bernardo: `@caiondaoficina`.
 - O Caio é um personagem virtual criado com IA, brasileiro, ~32 anos, barba curta, camiseta escura, oficina organizada. A imagem canônica não é redesenhada nem regerada.
-- Transparência: selo "Personagem criado com IA" visível na primeira tela; disclosure de afiliado visível junto do primeiro CTA.
+- A Home não tem avatar, monograma C nem badge de IA. A página Sobre mantém a explicação verdadeira do personagem virtual. Disclosure de afiliado continua junto dos CTAs e no rodapé.
 - Verdade nas alegações: o site diz que os produtos são **selecionados**; **nunca** usa "testado", "melhor", comparações ou números inventados.
-- Vetos visuais explícitos do dono: nada de preto+amarelo de construção, oficina suja, industrial pesado, tuning, marketplace, dropshipping, Linktree, SaaS genérico.
+- Direção atual: fundo claro consistente inclusive em sistema escuro, branco, grafite e amarelo, Manrope nos títulos e DM Sans na leitura. Tipografia forte e fotos inteiras; evitar oficina suja, industrial pesado, tuning e interface genérica.
 
 ## Evidence on Hand
 
 - `src/assets/caio/` (derivados da foto canônica `FOTODOCAIAO.jpeg` e de `CAIAOCOMCOMPRESSOR.jpeg`, Caio segurando o compressor).
-- Catálogo real via DAL do Codex (47 produtos, importação em andamento).
+- Catálogo real via DAL do Codex: 47 produtos importados e associados aos links e imagens reais.
 - Nenhum depoimento, avaliação, número de vendas, preço ou resultado de teste existe. Não fabricar.
 
 ## Product Principles
@@ -54,8 +54,8 @@ Uma marca de creator, não uma loja: um personagem com rosto e voz seleciona pou
 2. Só fatos verificáveis: o que não está no anúncio não aparece.
 3. Transparência é parte da marca, não nota de rodapé.
 4. Rápido no celular barato, dentro do navegador do Instagram.
-5. Curadoria visível: poucos itens, ordem de data, voz do Caio.
+5. Destaques priorizam contexto `?p=` e curadoria cadastrada, completando com produtos reais disponíveis sem inventar datas ou popularidade.
 
 ## Accessibility & Inclusion
 
-WCAG 2.2 AA. Alvos de toque de 44 px ou mais, uso com uma mão, `prefers-reduced-motion`, leitura correta por leitor de tela de cada link de produto ("Ver no Mercado Livre, nome do produto").
+WCAG 2.2 AA. Alvos de toque de 44 px ou mais, uso com uma mão, `prefers-reduced-motion`, leitura correta por leitor de tela de cada link de produto ("Conferir preço, nome do produto (abre o Mercado Livre)").

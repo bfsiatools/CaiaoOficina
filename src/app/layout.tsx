@@ -6,7 +6,7 @@ import { SkipLink } from '@/components/layout/skip-link';
 import { SITE } from '@/content/site';
 import { buildJsonLd, serializeJsonLd } from '@/features/seo/json-ld';
 import { ClickTracker } from '@/features/tracking/click-tracker';
-import { archivo } from './fonts';
+import { bodyFont, headingFont } from './fonts';
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
 
@@ -24,15 +24,12 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F3F4F5' },
-    { media: '(prefers-color-scheme: dark)', color: '#101316' },
-  ],
+  themeColor: '#FAF9F5',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR" className={archivo.variable}>
+    <html lang="pt-BR" className={`${bodyFont.variable} ${headingFont.variable}`}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildJsonLd(SITE_URL)) }} />
         <SkipLink />

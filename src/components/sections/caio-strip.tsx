@@ -1,32 +1,37 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import avatar from '@/assets/caio/caio-avatar-192.webp';
-import { InfoIcon } from '@/components/ui/icons';
+import { ArrowUpRightIcon } from '@/components/ui/icons';
 import { COPY } from '@/content/copy';
-import { SITE } from '@/content/site';
+import type { ProductView } from '@/features/catalog/types';
 
-/**
- * Hero compacto: o rosto do Caio, a promessa em uma frase e a transparência (IA) na mesma faixa.
- * O nome da marca já está no header; aqui o h1 diz o que é o site.
- */
-export function CaioStrip() {
+export function CaioStrip({ products = [] }: { products?: readonly ProductView[] }) {
+  const images = products.filter((product) => product.available && product.image).slice(0, 3);
   return (
-    <section aria-labelledby="caio-h1" className="flex items-start gap-3.5 pt-4 md:items-center md:gap-5 md:pt-8">
-      <div className="relative shrink-0">
-        <Image src={avatar} alt="" width={56} height={56} preload className="size-14 rounded-pill object-cover ring-2 ring-surface md:size-[72px]" />
-        <span aria-hidden="true" className="absolute bottom-0.5 right-0.5 size-3.5 rounded-pill bg-readout ring-2 ring-ground" />
+    <section aria-labelledby="caio-h1" className="hide-on-search grid overflow-hidden rounded-[24px] bg-accent md:grid-cols-2">
+      <div className="flex flex-col items-start justify-center px-6 py-8 md:px-10 md:py-12 lg:px-12">
+        <p className="mb-5 text-caption font-bold uppercase tracking-[0.16em]">{COPY.strip.eyebrow}</p>
+        <h1 id="caio-h1" className="max-w-[12ch] text-[38px] font-extrabold leading-[1.06] tracking-[-0.045em] sm:text-[48px] lg:text-[60px]">{COPY.strip.line}</h1>
+        <p className="mb-6 mt-5 max-w-[38ch] text-base leading-relaxed">{COPY.strip.body}</p>
+        <a href="#todos" className="inline-flex min-h-[52px] items-center gap-5 rounded-pill bg-plate px-6 text-base font-bold text-plate-ink transition-[background-color,transform] duration-(--duration-state) hover:bg-ink-2 motion-safe:active:scale-[0.97]">
+          {COPY.strip.button}<ArrowUpRightIcon className="size-5" />
+        </a>
+        <p className="mt-4 text-caption font-medium">{COPY.strip.disclosure}</p>
       </div>
-      <div className="min-w-0">
-        <h1 id="caio-h1" className="label-face text-md font-extrabold leading-snug md:text-xl">{COPY.strip.line}</h1>
-        <p className="mt-1 flex flex-wrap items-center gap-x-2 text-caption font-semibold text-ink-2">
-          <span>{SITE.handle}</span>
-          <span aria-hidden="true" className="text-ink-3">·</span>
-          <Link href="/como-escolho" className="inline-flex min-h-6 items-center gap-1 text-accent-ink underline decoration-[1.5px]">
-            <InfoIcon className="size-3.5" />
-            {COPY.strip.ai}
-          </Link>
-        </p>
-      </div>
+      {images.length > 0 ? (
+        <div className="relative flex min-h-[240px] items-center justify-center overflow-hidden bg-tile px-6 py-7 md:min-h-[440px] md:p-8">
+          <div className="grid w-full max-w-[450px] grid-cols-[1.35fr_1fr] items-center gap-3 md:gap-4">
+            <div className="relative aspect-[3/4] rounded-[24px] bg-surface p-4">
+              <Image src={images[0].image!.url} alt={images[0].displayName} fill preload sizes="(min-width: 1024px) 260px, (min-width: 768px) 220px, 52vw" className="object-contain p-5" />
+            </div>
+            <div className="flex flex-col gap-3 md:gap-4">
+              {images.slice(1).map((product) => (
+                <div key={product.id} className="relative aspect-square rounded-[20px] bg-surface">
+                  <Image src={product.image!.url} alt={product.displayName} fill sizes="(min-width: 768px) 170px, 35vw" className="object-contain p-4" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

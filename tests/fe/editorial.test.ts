@@ -38,5 +38,5 @@ describe('interface copy', () => {
     const text = normalize(JSON.stringify(COPY, (_k, v) => (typeof v === 'function' ? v('x', 1) : v)));
     for (const word of ['imperdivel', 'promocao', 'desconto', 'ultimas unidades', 'corra', 'oferta']) expect(text, word).not.toContain(word);
   });
-  it('says "Mercado Livre" on the CTA (ML 1.8)', () => expect(COPY.cta.label).toContain('Mercado Livre'));
+  it('identifies Mercado Livre as the price CTA destination', () => expect(COPY.cta.destination).toContain('Mercado Livre'));
 });

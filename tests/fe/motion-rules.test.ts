@@ -24,12 +24,6 @@ describe('motion', () => {
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');
     expect(css).toContain('--ease-out: cubic-bezier(0.23, 1, 0.32, 1)');
   });
-  it('defines the laser scan only under no-preference (hidden otherwise)', () => {
-    const rule = css.indexOf('animation: laser-scan');
-    expect(rule).toBeGreaterThan(-1);
-    expect(css.lastIndexOf('@media (prefers-reduced-motion: no-preference)', rule)).toBeGreaterThan(-1);
-    expect(css).toMatch(/\.scan-beam\s*\{\s*display:\s*none;/);
-  });
   it('gates every transform-on-press behind motion-safe', () => {
     for (const [path, text] of sources) {
       for (const m of text.matchAll(/(\S*)active:scale-\[/g)) expect(m[1], path).toContain('motion-safe:');

@@ -1,6 +1,14 @@
 # Evidência em 2026-10-07
 
-## Integração consolidada em main
+## Vitrine comercial — direção permanente
+
+Redesign solicitado por Bernardo e implementado em main: hero amarelo com produtos reais, wordmark tipográfico, Manrope + DM Sans, oito destaques em carrossel, CTAs “Conferir preço” com destino Mercado Livre visível, Instagram @caiondaoficina no rodapé e Home sem avatar/badge de IA/monograma C. Aparência clara independente do tema do sistema. [Escopo e pendências comerciais](storefront-2026-10-07.md).
+
+Validação: lint/typecheck/build PASS; 283 testes em 17 arquivos PASS e 11 E2E PASS, com o servidor iniciado por Bernardo. Os testes de contraste escuro/laser da direção anterior foram substituídos pelos requisitos aprovados da vitrine clara, mantendo AA nos pares de texto e painel. Auditoria Axe da Home sem violações nos critérios AA cobertos pela ferramenta; larguras 320/360/390/768/1280 sem overflow da página. Carrossel manual/automático/pausa e movimento reduzido exercitados. Busca/filtros, 47 produtos reais, imagens, produto/categoria, três redirects exatos, navegação sem JS, fronteiras HTTP e tracking único preservados. Scanner do build: 16 chunks, zero nomes/valores privados encontrados. Aparelho real/navegador interno continuam pendentes; automação não equivale a uma auditoria completa de acessibilidade.
+
+Sem alteração/importação de dados nesta etapa: 47 produtos/links/imagens reais existentes. Preços, descontos, estoque e prazo não foram inventados; dependem de integração atualizada. Capturas privadas `storefront-desktop.png`, `storefront-mobile.png` e `storefront-catalog-*.png`. Sem push/deploy.
+
+## Integração anterior consolidada em main
 
 Frontend do Claude e backend do Codex unidos: 295 testes locais e oito E2E PASS; lint/typecheck/build e scanner de 15 chunks PASS. Home/layout/CSS do Claude preservados integralmente. Busca, filtros, imagens, rotas de produto/categoria, /go e beacon delegado exercitados em localhost:3000 iniciado por Bernardo. Banco confirmou eventos test com parâmetros e referências corretas. Apply idempotente com 47 ignored; 47 imagens públicas baixadas e com hash/associação conferidos novamente. Detalhes em [integration-2026-10-07.md](integration-2026-10-07.md). A evidência abaixo descreve a entrega anterior do backend.
 

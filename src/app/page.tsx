@@ -56,15 +56,15 @@ export default async function Home({ searchParams }: { searchParams: Promise<Par
   const views = catalog.products.map((p) => toProductView(p, EDITORIAL[p.slug], categoryLabel));
   const pinned = resolveContext(params.p, views, PRODUCT_ALIASES);
   const picks = catalog.picks.map((p) => views.find((v) => v.id === p.id)).filter((v): v is ProductView => Boolean(v));
-  const featured = picks.length === 0 && !pinned ? orderForGrid(views).filter((v) => v.available).slice(0, 1) : [];
+  const featured = orderForGrid(views).filter((v) => v.available && v.id !== pinned?.id && !picks.some((pick) => pick.id === v.id)).slice(0, 8);
 
   const todayItems: TodayItem[] = [
     ...(pinned ? [{ product: pinned, cta: ctaFor(pinned), label: COPY.today.pinned, pinned: true, live: true }] : []),
     ...picks
       .filter((v) => v.id !== pinned?.id)
       .map((v) => ({ product: v, cta: ctaFor(v), label: v.dailyPickDate === today ? '' : COPY.pickDate(pickDateLabel(v.dailyPickDate ?? today, today)), live: true })),
-    ...featured.map((v) => ({ product: v, cta: ctaFor(v), label: COPY.today.titleFallback })),
-  ].slice(0, 3);
+    ...featured.map((v) => ({ product: v, cta: ctaFor(v), label: '' })),
+  ].slice(0, 8);
 
   const recent = selectRecent(views, today, new Set(todayItems.map((i) => i.product.id)), 8).flatMap((v) => {
     const cta = ctaFor(v);
@@ -81,8 +81,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Par
     <>
       <SiteHeader><SearchField /></SiteHeader>
       <main id="conteudo">
-        <PageContainer className="flex flex-col gap-8 pb-14 md:gap-14">
-          <CaioStrip />
+        <PageContainer className="flex flex-col gap-10 pb-16 pt-5 md:gap-16 md:pt-7">
+          <CaioStrip products={todayItems.map((item) => item.product)} />
           <TodayPicks items={todayItems} title={picks.length > 0 || pinned ? COPY.today.title : COPY.today.titleFallback} live={picks.length > 0 || Boolean(pinned)} />
           <RecentVideos items={recent} />
           <WhatsAppStrip url={whatsappUrl} />

@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { Monogram } from '@/components/ui/icons';
 
 export function Wordmark() {
   return (
-    <Link href="/" aria-label="Caio da Oficina, início" className="flex min-h-11 shrink-0 items-center gap-2 rounded-card">
-      <Monogram className="size-8" />
+    <Link href="/" aria-label="Caion da Oficina, início" className="flex min-h-11 shrink-0 items-center rounded-card">
       <span className="flex flex-col leading-none">
-        <span className="label-face text-md font-extrabold tracking-tight">Caio</span>
-        <span className="text-caption font-semibold text-ink-2">da Oficina</span>
+        <span className="label-face text-[28px] font-extrabold tracking-[-0.06em]">Caion<span aria-hidden="true" className="text-accent-ink">.</span></span>
+        <span className="mt-1 text-[10px] font-bold uppercase tracking-[0.19em]">da Oficina</span>
       </span>
     </Link>
   );

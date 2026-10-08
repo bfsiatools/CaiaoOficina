@@ -1,3 +1,4 @@
-import { Archivo } from 'next/font/google';
+import { DM_Sans, Manrope } from 'next/font/google';
 
-export const archivo = Archivo({ subsets: ['latin'], axes: ['wdth'], display: 'swap', variable: '--font-archivo' });
+export const bodyFont = DM_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-body' });
+export const headingFont = Manrope({ subsets: ['latin'], display: 'swap', variable: '--font-heading' });

@@ -1,11 +1,11 @@
 export const ABOUT = {
-  title: 'Como o Caio escolhe',
-  lead: 'O Caio mostra nos vídeos ferramentas, coisas para o carro e utilidades de casa e oficina. Este site guarda tudo o que ele já mostrou, para você achar depois.',
+  title: 'Sobre o Caion da Oficina',
+  lead: 'Encontre ferramentas, acessórios para o carro e utilidades de casa e oficina selecionados para esta vitrine. Conheça a marca e entenda como funcionam os links.',
   sections: [
     { id: 'quem', title: 'Quem é o Caio', body: 'O Caio é um personagem criado com inteligência artificial. Ele apresenta nos vídeos os produtos que aparecem neste site.' },
-    { id: 'como', title: 'Como os produtos entram', body: 'Os produtos são selecionados por quem faz o Caio da Oficina. Não fazemos testes de laboratório nem comparações entre produtos. Nome, foto e números de cada produto vêm do anúncio no Mercado Livre.' },
+    { id: 'como', title: 'Como os produtos entram', body: 'Os produtos são selecionados por quem faz o Caion da Oficina. Não fazemos testes de laboratório nem comparações entre produtos. Nome, foto e números de cada produto vêm do anúncio no Mercado Livre.' },
     { id: 'preco', title: 'Por que não tem preço', body: 'O preço muda no Mercado Livre o tempo todo. Para não mostrar um valor errado, o botão leva você direto ao anúncio, onde o preço está sempre atualizado.' },
-    { id: 'afiliado', title: 'Links de afiliado', body: 'Quando você compra por um dos links, o Caio da Oficina recebe uma comissão do Mercado Livre, sem custo extra para você. Por isso os botões dizem "Ver no Mercado Livre" e levam direto ao anúncio.' },
+    { id: 'afiliado', title: 'Links de afiliado', body: 'Quando você compra por um dos links, o Caion da Oficina recebe uma comissão do Mercado Livre, sem custo extra para você. Os botões "Conferir preço" levam ao destino do link afiliado, onde você consulta as condições do anúncio.' },
   ],
   imageAlt: 'Caio, personagem criado com IA, de camiseta escura em uma oficina organizada',
 } as const;
@@ -17,6 +17,6 @@ export const PRIVACY = {
     { title: 'O que registramos', body: 'Quando você toca em um produto ou no WhatsApp, registramos qual foi o produto, em qual parte da página, a data e a hora, a origem do link (por exemplo, o vídeo) e o site de onde você veio. Não registramos seu IP, seu e-mail nem dados do seu aparelho na nossa base.' },
     { title: 'Hospedagem', body: 'A empresa que hospeda o site pode guardar registros técnicos, como o endereço IP, pelo tempo definido por ela.' },
     { title: 'Cookies', body: 'Este site não usa cookies de publicidade nem de rastreamento de terceiros.' },
-    { title: 'Mercado Livre', body: 'Ao tocar em "Ver no Mercado Livre" você sai deste site e passa a seguir os termos e a política de privacidade do Mercado Livre.' },
+    { title: 'Mercado Livre', body: 'Ao tocar em "Conferir preço" você sai deste site e passa a seguir os termos e a política de privacidade do Mercado Livre.' },
   ],
 } as const;

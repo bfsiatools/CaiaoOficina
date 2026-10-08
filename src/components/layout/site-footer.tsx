@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { CtaLink } from '@/components/ui/cta-link';
-import { Monogram } from '@/components/ui/icons';
 import { COPY } from '@/content/copy';
 import { SITE } from '@/content/site';
 import { PageContainer } from './page-container';
@@ -11,11 +10,9 @@ export function SiteFooter({ whatsappUrl }: { whatsappUrl: string | null }) {
       <PageContainer className="grid gap-8 md:grid-cols-[1.2fr_1fr]">
         <div className="flex flex-col gap-3">
           <p className="flex items-center gap-2 text-base font-bold text-plate-ink">
-            <Monogram className="size-7" />
-            Caio da Oficina
+            {SITE.name}
           </p>
           <p className="max-w-[60ch]">{COPY.footer.affiliate}</p>
-          <p>{COPY.footer.ai}</p>
           {SITE.responsible ? (
             <p>
               {SITE.responsible.name}

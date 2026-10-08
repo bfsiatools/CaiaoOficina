@@ -14,8 +14,8 @@ export function CatalogSection({ items, categories, whatsappUrl }: {
   return (
     <section id="todos" aria-labelledby="todos-h2" className="flex flex-col gap-3">
       <div className="flex items-baseline justify-between gap-3">
-        <h2 id="todos-h2" className="label-face text-lg font-bold">{COPY.catalog.title}</h2>
-        <p id="catalog-count" aria-live="polite" className="text-sm tabular-nums text-ink-2">{COPY.catalog.count(items.length, items.length)}</p>
+        <h2 id="todos-h2" className="label-face text-xl font-extrabold">{COPY.catalog.title}</h2>
+        <p id="catalog-count" aria-live="polite" className="shrink-0 whitespace-nowrap text-caption tabular-nums text-ink-2 md:text-sm">{COPY.catalog.count(items.length, items.length)}</p>
       </div>
       <div className="sticky top-0 z-(--z-chips) -mx-4 border-b border-transparent bg-ground px-4 py-2 md:mx-0 md:px-0">
         <CategoryChips categories={categories} />

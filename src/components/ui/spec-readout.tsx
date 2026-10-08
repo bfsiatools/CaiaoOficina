@@ -2,7 +2,7 @@ import { cn } from './cn';
 
 /**
  * Ficha de bancada: os números do anúncio lidos como num display de instrumento
- * (dígitos verde-laser em placa grafite). Assinatura visual da marca.
+ * Specs reais do anúncio, com contraste e sem alegações promocionais.
  */
 export function SpecReadout({ specs, size = 'sm', className }: { specs: readonly string[]; size?: 'sm' | 'md'; className?: string }) {
   if (specs.length === 0) return null;

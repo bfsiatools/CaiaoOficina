@@ -35,7 +35,7 @@ describe('ProductTile', () => {
   });
   it('names the product and the destination for screen readers', () => expect(html).toContain(', Compressor portátil digital 150 psi (abre o Mercado Livre)'));
   it('shows name, blurb, readouts and the Mercado Livre label, never a price', () => {
-    for (const t of ['Ver no Mercado Livre', 'Compressor portátil digital 150 psi', 'Recarregável e sem fio.', '150 PSI']) expect(html).toContain(t);
+    for (const t of ['Conferir preço', 'no Mercado Livre', 'Compressor portátil digital 150 psi', 'Recarregável e sem fio.', '150 PSI']) expect(html).toContain(t);
     expect(html).not.toMatch(/R\$/);
   });
   it('tracks as catalog_card with product and link ids', () => {
@@ -55,8 +55,13 @@ describe('ProductAchado', () => {
   it('has the date badge, the disclosure and a 52px primary CTA tracked as daily_pick', () => {
     for (const t of ['Achado de hoje', 'Publi · link de afiliado', 'min-h-[52px]', 'bg-accent', 'data-placement="daily_pick"', 'data-cta-id="achado-1"']) expect(html).toContain(t);
   });
-  it('preloads only its image (LCP) and runs the one-time laser scan', () => { expect(html).toContain('data-preload="true"'); expect(html).toContain('scan-beam'); });
-  it('uses the Caio frame when the editorial provides one', () => expect(renderToStaticMarkup(<ProductAchado product={view({ frame: { src: '/f.webp', width: 360, height: 640 } })} cta={direct} label="x" ctaId="achado-1" />)).toContain('Caio mostrando'));
+  it('can preload the actual product image without a decorative animation', () => { expect(html).toContain('data-preload="true"'); expect(html).not.toContain('scan-beam'); });
+  it('shows the product rather than the persona frame even when editorial provides one', () => {
+    const card = renderToStaticMarkup(<ProductAchado product={view({ frame: { src: '/f.webp', width: 360, height: 640 } })} cta={direct} label="x" ctaId="achado-1" />);
+    expect(card).not.toContain('Caio mostrando');
+    expect(card).not.toContain('/f.webp');
+    expect(card).toContain('data-product-img');
+  });
   it('points to /go and skips the browser beacon when the redirect flag is on', () => {
     const r = renderToStaticMarkup(<ProductAchado product={view()} cta={redirect} label="x" ctaId="achado-1" />);
     expect(r).toContain('href="/go/compressor-portatil"');
@@ -100,10 +105,13 @@ describe('primitives', () => {
 });
 
 describe('sections', () => {
-  it('Caio strip: the only h1, decorative avatar, AI badge linking to /como-escolho', () => {
-    const html = renderToStaticMarkup(<CaioStrip />);
+  it('commercial hero: one h1, product images, catalog CTA and affiliate disclosure', () => {
+    const html = renderToStaticMarkup(<CaioStrip products={[view()]} />);
     expect(count(html, '<h1')).toBe(1);
-    for (const t of ['alt=""', 'Personagem criado com IA', 'href="/como-escolho"']) expect(html).toContain(t);
+    for (const t of ['Seu próximo achado começa aqui.', 'href="#todos"', 'Publi', 'alt="Compressor portátil digital 150 psi"']) expect(html).toContain(t);
+    expect(html).not.toContain('Personagem criado com IA');
+    expect(html).not.toContain('caio-avatar');
+    expect(html).not.toContain('@');
   });
   it('today picks: pinned product uses the contexto id; fallback title never says hoje', () => {
     const html = renderToStaticMarkup(<TodayPicks items={[{ product: view(), cta: direct, label: 'Do vídeo que você viu', pinned: true }]} title="Em destaque" />);
@@ -122,11 +130,12 @@ describe('sections', () => {
     expect(html).not.toContain('bg-accent');
   });
   it('catalog error announces with retry', () => { const html = renderToStaticMarkup(<CatalogError />); expect(html).toContain('role="alert"'); expect(html).toContain('Tentar de novo'); });
-  it('header and footer: home link, affiliate and AI disclosures, tracked WhatsApp only when present', () => {
+  it('header and footer: wordmark, corrected Instagram, affiliate disclosure, conditional WhatsApp', () => {
     expect(renderToStaticMarkup(<SiteHeader />)).toContain('href="/"');
     const off = renderToStaticMarkup(<SiteFooter whatsappUrl={null} />);
     expect(off).toContain('afiliado do Mercado Livre');
-    expect(off).toContain('inteligência artificial');
+    expect(off).toContain('https://www.instagram.com/caiondaoficina/');
+    expect(off).not.toContain('inteligência artificial');
     expect(off).not.toContain('wpp-rodape');
     expect(renderToStaticMarkup(<SiteFooter whatsappUrl="https://chat.whatsapp.com/abc" />)).toContain('data-cta-id="wpp-rodape"');
   });
