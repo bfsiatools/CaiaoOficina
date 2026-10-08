@@ -1,10 +1,10 @@
-# Caion da Oficina — frontend e backend V1
+# Caião da Oficina — frontend e backend V1
 
 Fonte oficial: `C:\dev\CaiaoOficina`, branch `main`. A integração preserva o frontend do Claude e o backend do Codex. As branches/worktrees originais permanecem como referências históricas; não são versões oficiais de execução. Os materiais originais no OneDrive foram preservados. Node 24, Next.js App Router e Supabase; sem painel administrativo ou autenticação na V1.
 
 ## Estado em 2026-10-07
 
-47 produtos reais **ativos** no Supabase, com 47 versões de link e 47 WebP no Storage. Após a integração, Bernardo substituiu permanentemente a direção anterior por vitrine comercial clara: hero, carrossel, amarelo/grafite, Manrope + DM Sans e CTAs de preço. Busca/chips, editorial e páginas usam a DAL existente e um único coletor. Ver [redesign e validação](docs/storefront-2026-10-07.md) e [auditoria da integração anterior](docs/integration-2026-10-07.md). Lançamento público e teste em aparelho/navegador interno continuam pendentes.
+47 produtos reais **ativos** no Supabase, com 47 versões de link e 47 WebP no Storage. Após a integração, Bernardo substituiu permanentemente a direção anterior por vitrine comercial clara: hero, leque automático baseado no componente do 21st.dev, amarelo/grafite, Manrope + DM Sans e CTAs de preço. Instagram correto: @caiaodaoficina. Busca/chips, editorial e páginas usam a DAL existente e um único coletor. Ver [redesign e validação](docs/storefront-2026-10-07.md) e [auditoria da integração anterior](docs/integration-2026-10-07.md). Lançamento público e teste em aparelho/navegador interno continuam pendentes.
 
 ## Configuração
 

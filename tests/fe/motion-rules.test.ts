@@ -10,7 +10,7 @@ describe('banned patterns in the frontend source', () => {
     ['transition-all / transition: all', /transition-all|transition:\s*all/],
     ['backdrop blur', /backdrop-blur|backdrop-filter/],
     ['zoom disabled', /user-scalable|maximum-scale|maximumScale/],
-    ['animation libraries', /framer-motion|motion\/react|gsap|lottie/],
+    ['unapproved animation libraries', /framer-motion|motion\/react|lottie/],
     ['scale(0) entrance', /scale\(0\)|scale-0\b/],
     ['gradient text', /bg-clip-text/],
     ['raw hex colors in components', /(?:text|bg|border)-\[#[0-9a-fA-F]{3,6}\]/],
@@ -20,6 +20,11 @@ describe('banned patterns in the frontend source', () => {
 
 describe('motion', () => {
   const css = readFileSync('src/app/globals.css', 'utf8');
+  it('scopes the requested GSAP dependency to the fan component', () => {
+    for (const [path, text] of sources) {
+      if (/from ['"]gsap['"]/.test(text)) expect(path.replaceAll('\\', '/')).toBe('src/components/ui/card-fan-carousel.tsx');
+    }
+  });
   it('has the global reduced-motion block and one easing token', () => {
     expect(css).toContain('@media (prefers-reduced-motion: reduce)');
     expect(css).toContain('--ease-out: cubic-bezier(0.23, 1, 0.32, 1)');

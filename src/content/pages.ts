@@ -1,13 +1,13 @@
 export const ABOUT = {
-  title: 'Sobre o Caion da Oficina',
+  title: 'Sobre o Caião da Oficina',
   lead: 'Encontre ferramentas, acessórios para o carro e utilidades de casa e oficina selecionados para esta vitrine. Conheça a marca e entenda como funcionam os links.',
   sections: [
-    { id: 'quem', title: 'Quem é o Caio', body: 'O Caio é um personagem criado com inteligência artificial. Ele apresenta nos vídeos os produtos que aparecem neste site.' },
-    { id: 'como', title: 'Como os produtos entram', body: 'Os produtos são selecionados por quem faz o Caion da Oficina. Não fazemos testes de laboratório nem comparações entre produtos. Nome, foto e números de cada produto vêm do anúncio no Mercado Livre.' },
+    { id: 'quem', title: 'Quem é o Caião', body: 'O Caião é um personagem criado com inteligência artificial. Ele apresenta nos vídeos os produtos que aparecem neste site.' },
+    { id: 'como', title: 'Como os produtos entram', body: 'Os produtos são selecionados por quem faz o Caião da Oficina. Não fazemos testes de laboratório nem comparações entre produtos. Nome, foto e números de cada produto vêm do anúncio no Mercado Livre.' },
     { id: 'preco', title: 'Por que não tem preço', body: 'O preço muda no Mercado Livre o tempo todo. Para não mostrar um valor errado, o botão leva você direto ao anúncio, onde o preço está sempre atualizado.' },
-    { id: 'afiliado', title: 'Links de afiliado', body: 'Quando você compra por um dos links, o Caion da Oficina recebe uma comissão do Mercado Livre, sem custo extra para você. Os botões "Conferir preço" levam ao destino do link afiliado, onde você consulta as condições do anúncio.' },
+    { id: 'afiliado', title: 'Links de afiliado', body: 'Quando você compra por um dos links, o Caião da Oficina recebe uma comissão do Mercado Livre, sem custo extra para você. Os botões "Conferir preço" levam ao destino do link afiliado, onde você consulta as condições do anúncio.' },
   ],
-  imageAlt: 'Caio, personagem criado com IA, de camiseta escura em uma oficina organizada',
+  imageAlt: 'Caião, personagem criado com IA, de camiseta escura em uma oficina organizada',
 } as const;
 
 export const PRIVACY = {

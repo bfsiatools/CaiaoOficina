@@ -2,7 +2,7 @@ import { ProductAchado } from '@/components/product/product-achado';
 import { COPY } from '@/content/copy';
 import type { ResolvedCta } from '@/features/catalog/cta';
 import type { ProductView } from '@/features/catalog/types';
-import { ProductCarousel } from './product-carousel';
+import SocialCards from '@/components/ui/card-fan-carousel';
 
 export interface TodayItem { product: ProductView; cta: ResolvedCta | null; label: string; pinned?: boolean; live?: boolean }
 
@@ -15,18 +15,20 @@ export function TodayPicks({ items, title, live = false }: { items: readonly Tod
         {title}
       </h2>
       <p className="mb-2 text-base text-ink-2">{COPY.today.subtitle}</p>
-      <ProductCarousel count={items.length}>
-        {items.map((item, i) => (
-          <ProductAchado
+      <SocialCards cards={items.map((item, i) => ({
+        id: item.product.id,
+        imgUrl: item.product.image?.url ?? '',
+        alt: item.product.displayName,
+        content: <ProductAchado
             key={item.product.id}
             product={item.product}
             cta={item.cta}
             label={item.label}
             ctaId={item.pinned ? 'contexto' : `achado-${i + 1}`}
             live={item.live}
-          />
-        ))}
-      </ProductCarousel>
+            compact
+          />,
+      }))} />
     </section>
   );
 }

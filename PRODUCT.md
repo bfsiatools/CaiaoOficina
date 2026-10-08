@@ -12,7 +12,7 @@ Pessoas no Brasil que acabaram de ver um vídeo curto (Instagram Reels, TikTok, 
 
 ## Product Purpose
 
-Vitrine comercial do Caion da Oficina: reúne ferramentas e utilidades reais, facilita a descoberta e leva o visitante ao anúncio no Mercado Livre por link de afiliado. Sucesso = reconhecer um produto útil e tocar em "Conferir preço". WhatsApp aparece somente quando houver URL real habilitada.
+Vitrine comercial do Caião da Oficina: reúne ferramentas e utilidades reais, facilita a descoberta e leva o visitante ao anúncio no Mercado Livre por link de afiliado. Sucesso = reconhecer um produto útil e tocar em "Conferir preço". WhatsApp aparece somente quando houver URL real habilitada.
 
 ## Positioning
 
@@ -36,9 +36,10 @@ Vitrine voltada à compra: hero comercial, fotos dos produtos, carrossel de dest
 
 ## Brand Commitments
 
-- Marca exibida: **Caion da Oficina**. Instagram informado por Bernardo: `@caiondaoficina`.
+- Marca exibida: **Caião da Oficina**. Instagram informado por Bernardo: `@caiaodaoficina`.
 - O Caio é um personagem virtual criado com IA, brasileiro, ~32 anos, barba curta, camiseta escura, oficina organizada. A imagem canônica não é redesenhada nem regerada.
-- A Home não tem avatar, monograma C nem badge de IA. A página Sobre mantém a explicação verdadeira do personagem virtual. Disclosure de afiliado continua junto dos CTAs e no rodapé.
+- A Home não tem avatar, monograma C nem badge de IA. A página Sobre mantém a explicação verdadeira do personagem virtual. A informação comercial foi condensada em uma frase junto do CTA principal e no rodapé; não repetir “Publi” em cada card.
+- Destaques usam o leque do componente fornecido por Bernardo via 21st.dev, com deslocamento lateral automático, sete cards visíveis e oito produtos reais na sequência. GSAP é autorizado somente para este componente, com cleanup, resize e movimento reduzido; a antiga proibição genérica de bibliotecas de animação não se aplica a ele.
 - Verdade nas alegações: o site diz que os produtos são **selecionados**; **nunca** usa "testado", "melhor", comparações ou números inventados.
 - Direção atual: fundo claro consistente inclusive em sistema escuro, branco, grafite e amarelo, Manrope nos títulos e DM Sans na leitura. Tipografia forte e fotos inteiras; evitar oficina suja, industrial pesado, tuning e interface genérica.
 

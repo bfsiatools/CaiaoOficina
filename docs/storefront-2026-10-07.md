@@ -4,13 +4,15 @@ Bernardo rejeitou a primeira Home por parecer uma divulgação discreta de links
 
 ## Resultado
 
-- Wordmark tipográfico Caion da Oficina e Instagram `@caiondaoficina`, informado por Bernardo. Instagram fica no rodapé, sem bloco de avatar/@ na abertura.
-- Hero comercial amarelo com três fotos dos produtos reais, CTA para o catálogo e identificação de publicidade afiliada.
+- Wordmark tipográfico Caião da Oficina e Instagram `@caiaodaoficina`, corrigido explicitamente por Bernardo nesta revisão. Instagram fica no rodapé, sem bloco de avatar/@ na abertura.
+- Hero comercial amarelo com três fotos dos produtos reais, CTA para o catálogo e aviso breve: “Links comerciais: podemos receber comissão nas compras.”
 - Manrope nos títulos e DM Sans na leitura; branco/papel, grafite e amarelo. A aparência permanece clara em sistemas configurados em dark mode.
-- Carrossel com oito produtos reais. Contexto `?p=` e curadoria cadastrada vêm primeiro; a seleção é completada com o catálogo disponível, sem inventar datas, descontos ou popularidade.
-- Rotação a cada seis segundos, controles anteriores/próximos e pausa. Hover/foco pausam temporariamente; navegação, toque, wheel ou teclas pausam a rotação. Movimento reduzido usa navegação manual. Sem JavaScript, os cartões e links continuam disponíveis por rolagem horizontal.
+- Leque baseado no prompt do 21st.dev, com GSAP 3.15.0 e oito produtos reais em sequência; até sete ficam visíveis. Contexto `?p=` e curadoria cadastrada vêm primeiro; a seleção é completada com o catálogo disponível, sem inventar datas, descontos ou popularidade. O componente foi adaptado à estrutura TypeScript/Tailwind/components/ui já existente e aos CTAs do catálogo, sem imagens de demonstração.
+- Movimento lateral automático a cada 3,6 segundos, controles anteriores/próximos e pausa. Hover/foco suspendem a rotação; navegação manual ou foco num card pausam e centralizam o produto. Movimento reduzido usa navegação manual sem animação. Sem JavaScript, os cartões e links continuam disponíveis por rolagem horizontal. GSAP fica restrito ao leque, com cleanup e recálculo ao redimensionar.
 - Cards com fotos inteiras dos produtos e botão amarelo “Conferir preço”, com nome e destino Mercado Livre identificados para leitores de tela. Selo de IA retirado da Home; a página Sobre mantém a descrição verdadeira do personagem.
 - Busca, filtros, links afiliados, parâmetros de campanha, tracking e rotas de produto/categoria preservados. Nenhuma alteração de schema ou reimportação foi necessária.
+
+Bernardo dispensou o link do Dribbble e confirmou o uso da referência do 21st.dev. “Vale a sua atenção” foi substituído por “Destaques da oficina”. Os avisos repetidos “Publi · link de afiliado · sem custo extra” saíram dos cards; permanece informação breve e visível sobre comissão no hero e no rodapé. A aplicação ao site do [guia primário do CONAR de 2026](https://conar.wpenginepowered.com/wp-content/uploads/2026/05/260525_GUIA_INFLUENCIADORES_CONAR_v6.pdf), que inclui remuneração por links de afiliado e orienta identificação comercial clara, é uma decisão de design; não uma declaração de homologação jurídica.
 
 ## Dados comerciais
 
@@ -22,7 +24,7 @@ A [documentação de itens do Mercado Livre](https://developers.mercadolivre.com
 
 ## Validação
 
-Registro final em [validation.md](validation.md). QA no localhost iniciado e controlado por Bernardo. Capturas privadas em `private/integration-20261007/storefront-*.png` cobrem abertura e catálogo em desktop e mobile. E2E cobre 320/360/390/768/1280 px, sistema escuro, contraste/acessibilidade automática, carrossel manual/automático/pausa, imagens reais, 47 produtos, busca/filtros, links de afiliado sem JavaScript, três destinos `/go` e tracking sem duplicação. Navegação externa é interrompida depois de verificar o destino; não houve compra.
+Registro final em [validation.md](validation.md). QA no localhost iniciado e controlado por Bernardo. Capturas privadas em `private/integration-20261007/storefront-*.png` e `fan-*.png` cobrem abertura, leque e catálogo em desktop e mobile. E2E cobre 320/360/390/768/1280 px, sistema escuro, contraste/acessibilidade automática, leque manual/automático/pausa, centralização física após animação, foco e movimento reduzido, imagens reais, 47 produtos, busca/filtros, links de afiliado sem JavaScript, três destinos `/go` e tracking sem duplicação. Navegação externa é interrompida depois de verificar o destino; não houve compra.
 
 ## Relatório do catálogo
 

@@ -105,6 +105,17 @@ html[data-searching="true"] .hide-on-search { display: none; }
 #todos [data-empty-state] { display: none; }
 #todos[data-empty="true"] [data-empty-state] { display: flex; }
 
+/* Normal horizontal cards are the SSR/no-JS fallback; hydration enables the fan. */
+.fan-stage { display: grid; grid-auto-flow: column; grid-auto-columns: min(86%, 280px); gap: 16px; overflow-x: auto; padding-block: 16px; }
+.fan-card { min-width: 0; }
+.card-fan[data-enhanced="true"] .fan-stage { position: relative; display: block; height: 420px; overflow: hidden; }
+.card-fan[data-enhanced="true"] .fan-card { position: absolute; top: 24px; left: 50%; width: 228px; margin-left: -114px; }
+.card-fan[data-enhanced="true"] .fan-card[aria-hidden="true"] { pointer-events: none; }
+@media (min-width: 640px) {
+  .card-fan[data-enhanced="true"] .fan-stage { height: 500px; }
+  .card-fan[data-enhanced="true"] .fan-card { width: 280px; margin-left: -140px; top: 28px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 1ms !important;

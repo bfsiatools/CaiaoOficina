@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Caion da Oficina: achados em ferramentas, carro e casa';
+export const alt = 'Caião da Oficina: achados em ferramentas, carro e casa';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -26,7 +26,7 @@ export default async function OpenGraph() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: plate, color: readout, borderRadius: 999, padding: '10px 22px', fontSize: 26, alignSelf: 'flex-start' }}>
             Ferramentas · Carro · Casa
           </div>
-          <div style={{ fontSize: 92, lineHeight: 1, letterSpacing: -2 }}>Caion da Oficina</div>
+          <div style={{ fontSize: 92, lineHeight: 1, letterSpacing: -2 }}>Caião da Oficina</div>
           <div style={{ fontSize: 36, lineHeight: 1.25, color: ink2 }}>Ferramentas, carro e casa, com link direto para o Mercado Livre.</div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}

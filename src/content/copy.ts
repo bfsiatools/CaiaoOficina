@@ -1,13 +1,13 @@
 /** Todo o texto da interface. Nenhum componente escreve frase própria. */
 export const COPY = {
-  strip: { eyebrow: 'Ferramentas · Carro · Casa', line: 'Seu próximo achado começa aqui.', body: 'Do reparo na oficina às soluções para casa. Encontre produtos úteis e confira o preço direto no Mercado Livre.', button: 'Explorar os achados', disclosure: 'Publi · links de afiliado · sem custo extra para você' },
-  today: { title: 'Achados de hoje', titleFallback: 'Vale a sua atenção', pinned: 'Do vídeo que você viu', subtitle: 'Uma seleção para facilitar seu próximo projeto.' },
+  strip: { eyebrow: 'Ferramentas · Carro · Casa', line: 'Seu próximo achado começa aqui.', body: 'Do reparo na oficina às soluções para casa. Encontre produtos úteis e confira o preço direto no Mercado Livre.', button: 'Explorar os achados', disclosure: 'Links comerciais: podemos receber comissão nas compras.' },
+  today: { title: 'Achados de hoje', titleFallback: 'Destaques da oficina', pinned: 'Do vídeo que você viu', subtitle: 'Conheça a seleção e confira o preço no Mercado Livre.' },
   pickDate: (label: string) => `Achado de ${label}`,
   recent: { title: 'Dos últimos vídeos' },
   cta: { label: 'Conferir preço', destination: 'no Mercado Livre', sr: (name: string) => `, ${name} (abre o Mercado Livre)` },
   disclosure: {
-    short: 'Publi · link de afiliado',
-    grid: 'Publi · links de afiliado. Você compra no Mercado Livre e o Caion da Oficina recebe comissão, sem custo extra para você.',
+    short: 'Links comerciais: podemos receber comissão nas compras.',
+    grid: 'Você compra no Mercado Livre. Confira preço, frete e disponibilidade no anúncio.',
   },
   catalog: { title: 'Encontre o seu próximo achado', count: (shown: number, total: number) => (shown === total ? `${total} produtos` : `${shown} de ${total}`), all: 'Todos', none: 'Ainda não há produtos por aqui.', filterLabel: 'Filtrar por categoria' },
   search: { label: 'Buscar produto', placeholder: 'Buscar produto', clear: 'Limpar busca', clearAll: 'Limpar filtros' },
@@ -25,7 +25,7 @@ export const COPY = {
     more: 'Sobre a seleção e os links',
   },
   footer: {
-    affiliate: 'Os links de produto são de afiliado do Mercado Livre. Quando você compra por eles, o Caion da Oficina recebe uma comissão, sem custo extra para você.',
+    affiliate: 'Podemos receber comissão pelas compras feitas pelos links deste site.',
     ai: 'O Caio é um personagem criado com inteligência artificial.',
     privacy: 'Privacidade',
   },

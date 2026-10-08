@@ -15,7 +15,7 @@ test('Claude Home uses the real DAL, loads images and keeps search/category filt
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Seu próximo achado começa aqui.');
   await expect(page.getByRole('link', { name: 'Explorar os achados', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Personagem criado com IA', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Instagram @caiondaoficina', exact: true })).toHaveAttribute('href', 'https://www.instagram.com/caiondaoficina/');
+  await expect(page.getByRole('link', { name: 'Instagram @caiaodaoficina', exact: true })).toHaveAttribute('href', 'https://www.instagram.com/caiaodaoficina/');
   await expect(page.locator('#todos-lista > li')).toHaveCount(47);
   const image = page.locator('#todos-lista img[data-product-img]').first();
   await image.scrollIntoViewIfNeeded();
