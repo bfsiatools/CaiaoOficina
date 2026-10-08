@@ -16,7 +16,7 @@ Vitrine comercial do Caião da Oficina: reúne ferramentas e utilidades reais, f
 
 ## Positioning
 
-Vitrine voltada à compra: hero comercial, fotos dos produtos, carrossel de destaques e CTAs evidentes. A referência enviada por Bernardo inspira a composição clara, o espaço e o amarelo; não copia a identidade da loja de móveis. Esta direção substituiu permanentemente a bancada discreta em 2026-10-07, após rejeição da primeira Home.
+Vitrine voltada à compra: abertura cinematográfica com a caixa fornecida por Bernardo, vídeo controlado pelo scroll, painéis em vidro e entrada para destaques/catálogo. A referência anterior permanece na tipografia clara e na prioridade dos produtos; o hero amarelo sólido foi substituído nesta evolução visual. A vitrine comercial substituiu permanentemente a bancada discreta em 2026-10-07.
 
 ## Operating Context
 
@@ -42,6 +42,7 @@ Vitrine voltada à compra: hero comercial, fotos dos produtos, carrossel de dest
 - Destaques usam o leque do componente fornecido por Bernardo via 21st.dev, com deslocamento lateral automático, sete cards visíveis e oito produtos reais na sequência. GSAP é autorizado somente para este componente, com cleanup, resize e movimento reduzido; a antiga proibição genérica de bibliotecas de animação não se aplica a ele.
 - Verdade nas alegações: o site diz que os produtos são **selecionados**; **nunca** usa "testado", "melhor", comparações ou números inventados.
 - Direção atual: fundo claro consistente inclusive em sistema escuro, branco, grafite e amarelo, Manrope nos títulos e DM Sans na leitura. Tipografia forte e fotos inteiras; evitar oficina suja, industrial pesado, tuning e interface genérica.
+- Abertura com os três assets reais da caixa: 300svh, vídeo pausado e reversível por scroll; reduced motion usa imagem aberta, sem carregar vídeo. Glass restrito à abertura e cards sobre ela; catálogo continua legível em superfície clara. Percentuais do asset são ilustrativos, não descontos confirmados dos produtos.
 
 ## Evidence on Hand
 

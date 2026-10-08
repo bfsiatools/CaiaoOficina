@@ -111,6 +111,58 @@ html[data-searching="true"] .hide-on-search { display: none; }
 .card-fan[data-enhanced="true"] .fan-stage { position: relative; display: block; height: 420px; overflow: hidden; }
 .card-fan[data-enhanced="true"] .fan-card { position: absolute; top: 24px; left: 50%; width: 228px; margin-left: -114px; }
 .card-fan[data-enhanced="true"] .fan-card[aria-hidden="true"] { pointer-events: none; }
+
+/* Three foreground steps share one sticky, paused video. No scroll-time React renders. */
+.scroll-experience { position: relative; isolation: isolate; background: #e8e5dc; }
+.scroll-backdrop { position: sticky; top: 0; height: 100svh; overflow: hidden; margin-bottom: -100svh; pointer-events: none; z-index: 0; }
+.scroll-backdrop::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 80%, var(--color-ground)); }
+.scroll-media { position: absolute; inset: 0; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: 70% center; }
+.scroll-poster-open, .scroll-video { opacity: 0; }
+.scroll-experience[data-video-ready="true"] .scroll-video { opacity: 1; }
+.scroll-experience[data-finished="true"] .scroll-poster-open { opacity: 1; }
+.scroll-experience[data-finished="true"] .scroll-video { opacity: 0; }
+.scroll-foreground { position: relative; z-index: 1; }
+.scroll-stage { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: 28px; }
+.scroll-intro { justify-content: flex-start; padding-top: 0; }
+.scroll-hero-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-block: 24px; }
+.glass-panel { background: rgb(250 249 245 / 78%); border: 1px solid rgb(255 255 255 / 65%); border-radius: 24px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 12px 36px rgb(23 26 23 / 5%); }
+.hero-glass { width: min(100%, 440px); }
+.glass-header { position: relative; background: rgb(250 249 245 / 72%); border-bottom: 1px solid rgb(255 255 255 / 60%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.glass-header input { background: rgb(255 255 255 / 65%); }
+.scroll-hint { margin-top: 20px; padding: 8px 12px; border-radius: var(--radius-pill); background: rgb(250 249 245 / 85%); }
+.discovery-panel { width: min(100%, 400px); padding: 24px; }
+.scroll-highlights { justify-content: flex-end; padding-bottom: 44px; }
+.scroll-highlights h2, .scroll-highlights section > p { width: fit-content; max-width: 100%; padding: 8px 14px; background: rgb(250 249 245 / 88%); border-radius: 16px; }
+.scroll-highlights article { background: rgb(250 249 245 / 96%); border-color: rgb(255 255 255 / 70%); }
+.scroll-highlights .card-fan > div:last-child { border-radius: 16px; background: rgb(250 249 245 / 88%); padding: 8px 12px; }
+.catalog-arrival { position: relative; background: var(--color-ground); }
+@media (min-width: 768px) and (max-width: 1199px) {
+  .scroll-media { width: 120%; left: -20%; object-fit: contain; object-position: center 85%; }
+}
+html[data-searching="true"] .scroll-backdrop,
+html[data-searching="true"] .scroll-hero-wrap,
+html[data-searching="true"] .scroll-discovery,
+html[data-searching="true"] .scroll-highlights { display: none; }
+html[data-searching="true"] .scroll-intro { min-height: auto; padding: 0; }
+@media (max-width: 767px) {
+  .scroll-media { width: 160%; left: -60%; object-fit: contain; object-position: center 88%; }
+  .scroll-hero-wrap { justify-content: flex-start; padding-top: 20px; }
+  .hero-glass { max-width: 390px; }
+  .hero-glass h1 { max-width: 15ch; }
+  .hero-glass p { margin-block: 12px; }
+  .hero-glass p:last-child { margin-bottom: 0; }
+  .scroll-discovery { justify-content: flex-start; padding-top: 8svh; }
+  .scroll-highlights { justify-content: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-poster-open { opacity: 1; }
+  .scroll-video { display: none; }
+  .scroll-stage { min-height: auto; padding-bottom: 40px; }
+  .scroll-hero-wrap { min-height: 75svh; }
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-panel, .glass-header { background: rgb(250 249 245 / 92%); }
+}
 @media (min-width: 640px) {
   .card-fan[data-enhanced="true"] .fan-stage { height: 500px; }
   .card-fan[data-enhanced="true"] .fan-card { width: 280px; margin-left: -140px; top: 28px; }

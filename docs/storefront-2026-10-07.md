@@ -4,6 +4,8 @@ Bernardo rejeitou a primeira Home por parecer uma divulgação discreta de links
 
 ## Resultado
 
+**Evolução posterior na mesma data:** hero sólido substituído por caixa como background controlado pelo scroll, 300svh e painéis em vidro; o leque permanece na etapa final. Assets reais preservados e MP4 otimizado para seek. A descrição do hero amarelo abaixo registra a revisão anterior. A posição atual está em [scroll-background-2026-10-07.md](scroll-background-2026-10-07.md).
+
 - Wordmark tipográfico Caião da Oficina e Instagram `@caiaodaoficina`, corrigido explicitamente por Bernardo nesta revisão. Instagram fica no rodapé, sem bloco de avatar/@ na abertura.
 - Hero comercial amarelo com três fotos dos produtos reais, CTA para o catálogo e aviso breve: “Links comerciais: podemos receber comissão nas compras.”
 - Manrope nos títulos e DM Sans na leitura; branco/papel, grafite e amarelo. A aparência permanece clara em sistemas configurados em dark mode.

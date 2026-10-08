@@ -4,6 +4,8 @@ Fonte oficial: `C:\dev\CaiaoOficina`, branch `main`. A integração preserva o f
 
 ## Estado em 2026-10-07
 
+A abertura agora usa os assets reais da caixa como background controlado pelo scroll: região de 300svh, hero/header em vidro, categorias e leque sobrepostos. Vídeo reversível sem autoplay; reduced motion usa imagem estática. Ver [implementação e QA do background](docs/scroll-background-2026-10-07.md).
+
 47 produtos reais **ativos** no Supabase, com 47 versões de link e 47 WebP no Storage. Após a integração, Bernardo substituiu permanentemente a direção anterior por vitrine comercial clara: hero, leque automático baseado no componente do 21st.dev, amarelo/grafite, Manrope + DM Sans e CTAs de preço. Instagram correto: @caiaodaoficina. Busca/chips, editorial e páginas usam a DAL existente e um único coletor. Ver [redesign e validação](docs/storefront-2026-10-07.md) e [auditoria da integração anterior](docs/integration-2026-10-07.md). Lançamento público e teste em aparelho/navegador interno continuam pendentes.
 
 ## Configuração

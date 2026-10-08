@@ -8,7 +8,6 @@ const sources = files('src').map((p) => [p, readFileSync(p, 'utf8')] as const);
 describe('banned patterns in the frontend source', () => {
   it.each([
     ['transition-all / transition: all', /transition-all|transition:\s*all/],
-    ['backdrop blur', /backdrop-blur|backdrop-filter/],
     ['zoom disabled', /user-scalable|maximum-scale|maximumScale/],
     ['unapproved animation libraries', /framer-motion|motion\/react|lottie/],
     ['scale(0) entrance', /scale\(0\)|scale-0\b/],
@@ -20,6 +19,12 @@ describe('banned patterns in the frontend source', () => {
 
 describe('motion', () => {
   const css = readFileSync('src/app/globals.css', 'utf8');
+  it('keeps the requested glass effects in the scroll experience stylesheet', () => {
+    for (const [path, text] of sources) {
+      if (/backdrop-blur|backdrop-filter/.test(text)) expect(path.replaceAll('\\', '/')).toBe('src/app/globals.css');
+    }
+    expect(css).toContain('.glass-panel');
+  });
   it('scopes the requested GSAP dependency to the fan component', () => {
     for (const [path, text] of sources) {
       if (/from ['"]gsap['"]/.test(text)) expect(path.replaceAll('\\', '/')).toBe('src/components/ui/card-fan-carousel.tsx');

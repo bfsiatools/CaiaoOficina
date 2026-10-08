@@ -1,5 +1,7 @@
 # Contrato para o Claude Code
 
+Abertura atual: background da caixa controlado pelo scroll, painéis em vidro, categorias existentes e leque 21st.dev sobreposto; catálogo em superfície clara. Preservar fallbacks, reduced motion e o aviso de que os percentuais do asset são ilustrativos. Ver [relatório do background](scroll-background-2026-10-07.md).
+
 Fonte oficial consolidada em `C:\dev\CaiaoOficina`, branch `main`. O frontend do Claude já está integrado ao backend do Codex; próximos ajustes visuais devem partir de `main`, evitando reconstruir a integração no worktree antigo. `codex/backend-v1` e `claude/frontend-v1` foram preservadas como referências. OneDrive contém os materiais originais. Banco: 47 produtos reais ativos, 47 links e 47 imagens no Storage. Ver [auditoria de integração](integration-2026-10-07.md). A direção antiga foi substituída permanentemente por Bernardo: usar a vitrine comercial descrita em [storefront-2026-10-07.md](storefront-2026-10-07.md) e no PRODUCT.md atual, com Instagram @caiaodaoficina e leque automático do 21st.dev; não restaurar avatar/badge de IA/monograma C na Home.
 
 ```text

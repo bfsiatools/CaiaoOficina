@@ -1,5 +1,11 @@
 # Evidência em 2026-10-07
 
+## Background controlado pelo scroll — revisão atual
+
+Vídeo real da caixa ao fundo de 300svh, hero/header em vidro, categorias e destaques sobrepostos. Cinco pontos e retorno exercitados em 320/360/375/390/430/768/1024/1440 px; recortes inspecionados, sem overflow. Reduced motion sem download de vídeo, mudança de preferência, erro de mídia, no-JS e wheel com CPU limitada a 4× PASS. A primeira linha do catálogo deixou de usar content-visibility para estabilizar a área de clique na entrada longa. Percentuais do asset são ilustrativos, sem descontos atribuídos ao catálogo. [Relatório completo](scroll-background-2026-10-07.md).
+
+Lint/typecheck/build PASS, 284 testes locais e **16 E2E PASS**. Scanner: 16 chunks, zero nomes/valores privados. Busca, filtros, dados reais, links, três `/go` e tracking único preservados. Localhost iniciado por Bernardo; sem push/deploy. Homologação em aparelho físico/Safari/navegador interno permanece pendente.
+
 ## Vitrine comercial — direção permanente
 
 Redesign solicitado por Bernardo e implementado em main: hero amarelo com produtos reais, wordmark Caião, Manrope + DM Sans, oito destaques no leque automático do 21st.dev, CTAs “Conferir preço” com destino Mercado Livre visível, Instagram @caiaodaoficina no rodapé e Home sem avatar/badge de IA/monograma C. Aparência clara independente do tema do sistema. Avisos repetidos nos cards removidos; aviso breve sobre comissão permanece no hero e no rodapé. [Escopo e pendências comerciais](storefront-2026-10-07.md).

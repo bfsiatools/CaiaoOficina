@@ -1,5 +1,6 @@
 /** Todo o texto da interface. Nenhum componente escreve frase própria. */
 export const COPY = {
+  scroll: { illustration: 'Percentuais ilustrativos. Confira as condições reais no anúncio.', discovery: 'Ferramentas · Carro · Casa', hint: 'Role para descobrir', catalog: 'Explorar o catálogo' },
   strip: { eyebrow: 'Ferramentas · Carro · Casa', line: 'Seu próximo achado começa aqui.', body: 'Do reparo na oficina às soluções para casa. Encontre produtos úteis e confira o preço direto no Mercado Livre.', button: 'Explorar os achados', disclosure: 'Links comerciais: podemos receber comissão nas compras.' },
   today: { title: 'Achados de hoje', titleFallback: 'Destaques da oficina', pinned: 'Do vídeo que você viu', subtitle: 'Conheça a seleção e confira o preço no Mercado Livre.' },
   pickDate: (label: string) => `Achado de ${label}`,

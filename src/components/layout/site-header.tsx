@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { PageContainer } from './page-container';
 import { Wordmark } from './wordmark';
 
-export function SiteHeader({ children }: { children?: ReactNode }) {
+export function SiteHeader({ children, glass = false }: { children?: ReactNode; glass?: boolean }) {
   return (
-    <header className="border-b border-line bg-ground pt-[env(safe-area-inset-top)]">
+    <header className={`${glass ? 'glass-header' : 'border-b border-line bg-ground'} pt-[env(safe-area-inset-top)]`}>
       <PageContainer className="flex flex-wrap items-center gap-x-5 gap-y-4 py-5 md:flex-nowrap md:gap-10 md:py-6">
         <Wordmark />
         <nav aria-label="Principal" className="ml-auto flex items-center gap-5 text-sm font-semibold md:ml-4">

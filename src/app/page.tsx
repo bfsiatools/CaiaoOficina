@@ -9,6 +9,7 @@ import { HowCaioChooses } from '@/components/sections/how-caio-chooses';
 import { RecentVideos } from '@/components/sections/recent-videos';
 import { TodayPicks, type TodayItem } from '@/components/sections/today-picks';
 import { WhatsAppStrip } from '@/components/sections/whatsapp-strip';
+import { ScrollVideoBackground } from '@/components/sections/scroll-video-background';
 import { categoryLabel } from '@/content/category-labels';
 import { COPY } from '@/content/copy';
 import { EDITORIAL, PRODUCT_ALIASES } from '@/content/editorial';
@@ -79,11 +80,28 @@ export default async function Home({ searchParams }: { searchParams: Promise<Par
 
   return (
     <>
-      <SiteHeader><SearchField /></SiteHeader>
       <main id="conteudo">
-        <PageContainer className="flex flex-col gap-10 pb-16 pt-5 md:gap-16 md:pt-7">
-          <CaioStrip products={todayItems.map((item) => item.product)} />
-          <TodayPicks items={todayItems} title={picks.length > 0 || pinned ? COPY.today.title : COPY.today.titleFallback} live={picks.length > 0 || Boolean(pinned)} />
+        <ScrollVideoBackground
+          intro={<>
+            <SiteHeader glass><SearchField /></SiteHeader>
+            <PageContainer className="scroll-hero-wrap">
+              <CaioStrip glass />
+              <p className="scroll-hint text-caption font-medium">{COPY.scroll.hint}<span aria-hidden="true"> ↓</span></p>
+            </PageContainer>
+          </>}
+          discovery={<PageContainer>
+            <div className="glass-panel discovery-panel">
+              <h2 className="text-lg">{COPY.scroll.discovery}</h2>
+              <p className="mt-3 text-sm text-ink-2">{COPY.today.subtitle}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {categories.map(category => <a key={category.slug} href={`/categoria/${category.slug}`} className="inline-flex min-h-11 items-center rounded-pill border border-line px-4 text-sm font-semibold">{category.label}</a>)}
+              </div>
+              <a href="#todos" className="mt-4 inline-flex min-h-11 items-center text-sm font-bold underline">{COPY.scroll.catalog} <span aria-hidden="true">↗</span></a>
+            </div>
+          </PageContainer>}
+          highlights={<PageContainer><TodayPicks items={todayItems} title={picks.length > 0 || pinned ? COPY.today.title : COPY.today.titleFallback} live={picks.length > 0 || Boolean(pinned)} /></PageContainer>}
+        />
+        <PageContainer className="catalog-arrival flex flex-col gap-10 pb-16 pt-8 md:gap-16">
           <RecentVideos items={recent} />
           <WhatsAppStrip url={whatsappUrl} />
           {gridItems.length > 0 ? (
