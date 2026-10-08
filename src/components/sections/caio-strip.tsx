@@ -14,8 +14,7 @@ export function CaioStrip({ products = [], glass = false }: { products?: readonl
         <a href="#todos" className="inline-flex min-h-[52px] items-center gap-5 rounded-pill bg-plate px-6 text-base font-bold text-plate-ink transition-[background-color,transform] duration-(--duration-state) hover:bg-ink-2 motion-safe:active:scale-[0.97]">
           {COPY.strip.button}<ArrowUpRightIcon className="size-5" />
         </a>
-        <p className="mt-4 text-caption font-medium">{COPY.strip.disclosure}</p>
-        {glass ? <p className="mt-2 text-caption text-ink-2">{COPY.scroll.illustration}</p> : null}
+        {glass ? <p className="mt-4 text-caption text-ink-2">{COPY.scroll.illustration}</p> : null}
       </div>
       {!glass && images.length > 0 ? (
         <div className="relative flex min-h-[240px] items-center justify-center overflow-hidden bg-tile px-6 py-7 md:min-h-[440px] md:p-8">

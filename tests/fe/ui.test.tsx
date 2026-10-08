@@ -113,10 +113,11 @@ describe('primitives', () => {
 });
 
 describe('sections', () => {
-  it('commercial hero: one h1, product images, catalog CTA and affiliate disclosure', () => {
+  it('commercial hero: one h1, product images and catalog CTA without monetization copy', () => {
     const html = renderToStaticMarkup(<CaioStrip products={[view()]} />);
     expect(count(html, '<h1')).toBe(1);
-    for (const t of ['Seu próximo achado começa aqui.', 'href="#todos"', 'Links comerciais', 'comissão', 'alt="Compressor portátil digital 150 psi"']) expect(html).toContain(t);
+    for (const t of ['Seu próximo achado começa aqui.', 'href="#todos"', 'alt="Compressor portátil digital 150 psi"']) expect(html).toContain(t);
+    expect(html).not.toMatch(/comiss[aã]o|afiliad|links? comerciais/i);
     expect(html).not.toContain('Personagem criado com IA');
     expect(html).not.toContain('caio-avatar');
     expect(html).not.toContain('@');
