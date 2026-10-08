@@ -111,6 +111,32 @@ html[data-searching="true"] .hide-on-search { display: none; }
 .card-fan[data-enhanced="true"] .fan-stage { position: relative; display: block; height: 420px; overflow: hidden; }
 .card-fan[data-enhanced="true"] .fan-card { position: absolute; top: 24px; left: 50%; width: 228px; margin-left: -114px; }
 .card-fan[data-enhanced="true"] .fan-card[aria-hidden="true"] { pointer-events: none; }
+.card-fan[data-enhanced="true"] .fan-stage { touch-action: pan-y; }
+.fan-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 30; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--color-line); border-radius: var(--radius-pill); background: rgb(250 249 245 / 94%); color: var(--color-ink); transition: background-color var(--duration-state); }
+.fan-arrow:hover { background: var(--color-accent); }
+.fan-arrow-prev { left: 0; }
+.fan-arrow-next { right: 0; }
+.fan-rotation-control:focus { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 40; min-height: 44px; padding: 8px 16px; border-radius: var(--radius-pill); background: var(--color-ground); color: var(--color-ink); }
+
+/* Physical product layers; content and the stretched tracked anchor remain SSR. */
+.product-3d-shell { perspective: 1000px; }
+.product-3d-card { transform-style: preserve-3d; transition: border-color var(--duration-state), box-shadow var(--duration-state), transform var(--duration-state); }
+.product-3d-card:hover { border-color: var(--color-ink-3); box-shadow: 0 8px 18px rgb(23 26 23 / 7%); }
+.product-3d-card[data-tilting="true"] { will-change: transform; transition-property: border-color, box-shadow; }
+.product-3d-image { pointer-events: none; }
+.product-3d-link, .product-3d-info, .product-3d-info > div:last-child { transform-style: preserve-3d; }
+.product-3d-link { transform: none; }
+.product-3d-link::after { transform: translateZ(24px); }
+.product-3d-link:hover .product-3d-cta, .product-3d-link:active .product-3d-cta { background: var(--color-accent-press); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .product-3d-card[data-tilting="true"] .product-3d-image { transform: translateZ(12px); }
+  .product-3d-card[data-tilting="true"] .product-3d-title { transform: translateZ(6px); }
+  .product-3d-card[data-tilting="true"] .product-3d-cta { transform: translateZ(18px); transform-style: preserve-3d; }
+  .product-3d-card[data-tilting="true"] .product-3d-cta > svg { transform: translateZ(2px); }
+}
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .product-3d-card:has(a:active) { scale: 0.985; }
+}
 
 /* Three foreground steps share one sticky, paused video. No scroll-time React renders. */
 .scroll-experience { position: relative; isolation: isolate; background: #e8e5dc; }
@@ -131,10 +157,9 @@ html[data-searching="true"] .hide-on-search { display: none; }
 .glass-header input { background: rgb(255 255 255 / 65%); }
 .scroll-hint { margin-top: 20px; padding: 8px 12px; border-radius: var(--radius-pill); background: rgb(250 249 245 / 85%); }
 .discovery-panel { width: min(100%, 400px); padding: 24px; }
-.scroll-highlights { justify-content: flex-end; padding-bottom: 44px; }
+.scroll-highlights { justify-content: flex-end; padding-bottom: 16px; }
 .scroll-highlights h2, .scroll-highlights section > p { width: fit-content; max-width: 100%; padding: 8px 14px; background: rgb(250 249 245 / 88%); border-radius: 16px; }
 .scroll-highlights article { background: rgb(250 249 245 / 96%); border-color: rgb(255 255 255 / 70%); }
-.scroll-highlights .card-fan > div:last-child { border-radius: 16px; background: rgb(250 249 245 / 88%); padding: 8px 12px; }
 .catalog-arrival { position: relative; background: var(--color-ground); }
 @media (min-width: 768px) and (max-width: 1199px) {
   .scroll-media { width: 120%; left: -20%; object-fit: contain; object-position: center 85%; }

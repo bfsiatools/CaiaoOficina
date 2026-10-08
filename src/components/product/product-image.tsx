@@ -6,7 +6,7 @@ import { PLACEHOLDER_SRC } from './constants';
 
 export type ImageVariant = 'tile' | 'achado' | 'capa' | 'frame';
 const SIZES: Record<ImageVariant, string> = {
-  tile: '(min-width: 1024px) 260px, (min-width: 768px) 232px, (min-width: 360px) 46vw, 104px',
+  tile: '(min-width: 1280px) 260px, (min-width: 1024px) 30vw, (min-width: 768px) 46vw, (min-width: 360px) 44vw, 104px',
   achado: '(min-width: 1024px) 360px, (min-width: 640px) 46vw, 86vw',
   capa: '144px',
   frame: '(min-width: 768px) 200px, 128px',

@@ -1,10 +1,12 @@
 import type { ResolvedCta } from '@/features/catalog/cta';
 import type { ProductView } from '@/features/catalog/types';
 import { ProductTile } from './product-tile';
+import { Product3DInteraction } from './product-3d-interaction';
 
 export function ProductGrid({ items }: { items: ReadonlyArray<{ product: ProductView; cta: ResolvedCta | null }> }) {
   return (
-    <ul id="todos-lista" className="grid grid-cols-1 gap-3 xs:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+    <>
+    <ul id="todos-lista" className="grid grid-cols-1 gap-3 xs:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4">
       {items.map(({ product, cta }, index) => (
         <li
           key={product.id}
@@ -17,5 +19,7 @@ export function ProductGrid({ items }: { items: ReadonlyArray<{ product: Product
         </li>
       ))}
     </ul>
+    <Product3DInteraction />
+    </>
   );
 }

@@ -43,7 +43,8 @@ test('carousel uses real product links and remains manually navigable with reduc
   await page.goto('/');
   const rail = page.getByRole('region', { name: 'Produtos em destaque' });
   await expect(rail.locator('article')).toHaveCount(8);
-  await expect(page.getByRole('button', { name: 'Rotação desativada: movimento reduzido' })).toBeDisabled();
+  await expect(page.locator('.fan-rotation-control')).toHaveCount(0);
+  await expect(page.getByText('Pausar destaques', { exact: true })).toHaveCount(0);
   const catalogIds = await page.locator('#todos-lista a[data-product-id]').evaluateAll(links => links.map(link => link.getAttribute('data-product-id')));
   const featuredIds = await rail.locator('a[data-product-id]').evaluateAll(links => links.map(link => link.getAttribute('data-product-id')));
   expect(new Set(featuredIds).size).toBe(8);
@@ -64,24 +65,55 @@ test('carousel uses real product links and remains manually navigable with reduc
   await expect(page.getByRole('heading', { name: 'Encontre o seu próximo achado' })).toBeInViewport();
 });
 
-test('carousel rotates and the pause control stops it after focus leaves', async ({ page }) => {
+test('carousel loops every 3000ms, pauses temporarily, and manual arrows restart the timer', async ({ page }) => {
   await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
   await page.goto('/');
   const rail = page.getByRole('region', { name: 'Produtos em destaque' });
-  await expect(page.getByRole('button', { name: 'Pausar rotação dos destaques' })).toBeVisible();
+  await rail.scrollIntoViewIfNeeded();
   await page.mouse.move(0, 0);
+  // Let IntersectionObserver enter, then reset the rotation timer with a manual step.
+  await page.getByRole('button', { name: 'Destaques anteriores' }).click();
+  await page.mouse.move(0, 0);
+  const ids = await rail.locator('a[data-product-id]').evaluateAll(links => links.map(link => link.getAttribute('data-product-id')));
   const firstId = await rail.getAttribute('data-center-id');
-  await page.clock.runFor(4400);
-  await expect(rail).not.toHaveAttribute('data-center-id', firstId!);
-  await page.clock.runFor(1000);
-  const activeId = await rail.getAttribute('data-center-id');
-  const activeBox = await rail.locator(`[data-fan-index]:has(a[data-product-id="${activeId}"])`).boundingBox();
-  const railBox = await rail.boundingBox();
-  expect(Math.abs(activeBox!.x + activeBox!.width / 2 - railBox!.x - railBox!.width / 2)).toBeLessThan(5);
-  await page.getByRole('button', { name: 'Pausar rotação dos destaques' }).click();
-  await page.getByRole('heading', { level: 1 }).click();
-  await page.clock.runFor(1000);
-  const stoppedAt = await rail.getAttribute('data-center-id');
+  for (let step = 1; step <= 16; step++) {
+    const before = await rail.getAttribute('data-center-id');
+    await page.clock.runFor(2999);
+    await expect(rail).toHaveAttribute('data-center-id', before!);
+    await page.clock.runFor(1);
+    await expect(rail).toHaveAttribute('data-center-id', ids[(ids.indexOf(firstId) + step) % ids.length]!);
+  }
+  await page.clock.runFor(700);
+  const box = await rail.boundingBox();
+  await page.mouse.move(box!.x + box!.width / 2, box!.y + 120);
+  const hoveredId = await rail.getAttribute('data-center-id');
   await page.clock.runFor(7000);
-  await expect(rail).toHaveAttribute('data-center-id', stoppedAt!);
+  await expect(rail).toHaveAttribute('data-center-id', hoveredId!);
+  await page.mouse.move(0, 0);
+  await page.clock.runFor(3000);
+  await expect(rail).not.toHaveAttribute('data-center-id', hoveredId!);
+  await page.getByRole('button', { name: 'Próximos destaques' }).click();
+  await page.mouse.move(0, 0);
+  const manualId = await rail.getAttribute('data-center-id');
+  await page.clock.runFor(2999);
+  await expect(rail).toHaveAttribute('data-center-id', manualId!);
+  await page.clock.runFor(1);
+  await expect(rail).not.toHaveAttribute('data-center-id', manualId!);
+  // Keyboard focus pauses; it is never a permanent pause after blur.
+  await page.getByRole('button', { name: 'Próximos destaques' }).press('Tab');
+  await page.getByRole('button', { name: 'Destaques anteriores' }).focus();
+  const focusedId = await rail.getAttribute('data-center-id');
+  await page.clock.runFor(6000);
+  await expect(rail).toHaveAttribute('data-center-id', focusedId!);
+  await page.evaluate(() => (document.activeElement as HTMLElement).blur());
+  await page.clock.runFor(3000);
+  await expect(rail).not.toHaveAttribute('data-center-id', focusedId!);
+  // An optional keyboard-only rotation control can stop autoplay without a bottom toolbar.
+  await page.getByRole('button', { name: 'Parar rotação automática' }).focus();
+  await page.getByRole('button', { name: 'Parar rotação automática' }).press('Enter');
+  await page.evaluate(() => (document.activeElement as HTMLElement).blur());
+  const stoppedId = await rail.getAttribute('data-center-id');
+  await page.clock.runFor(6000);
+  await expect(rail).toHaveAttribute('data-center-id', stoppedId!);
 });

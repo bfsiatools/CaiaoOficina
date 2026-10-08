@@ -48,6 +48,13 @@ describe('ProductTile', () => {
     expect(off).toContain('Indisponível no momento');
     expect(off).toContain('opacity-60');
   });
+  it('keeps the description space when absent without inventing copy', () => {
+    const empty = renderToStaticMarkup(<ProductTile product={view({ blurb: null })} cta={direct} />);
+    expect(empty).toContain('min-h-11 line-clamp-2');
+    expect(empty).toContain('aria-hidden="true"');
+    expect(count(empty, '<a ')).toBe(1);
+    expect(empty).not.toContain('Recarregável e sem fio.');
+  });
 });
 
 describe('ProductAchado', () => {
@@ -78,7 +85,7 @@ describe('ProductCapa and ProductGrid', () => {
   });
   it('grid: filter data on each item and 1/2/3/4 columns', () => {
     const html = renderToStaticMarkup(<ProductGrid items={[{ product: view(), cta: direct }, { product: view({ id: 'p2', slug: 'furadeira', searchText: 'furadeira', categories: [{ slug: 'ferramentas-e-reparos', label: 'Ferramentas' }] }), cta: direct }]} />);
-    for (const t of ['data-product-slug="furadeira"', 'data-search="furadeira"', 'data-categories="ferramentas-e-reparos"', 'grid-cols-1', 'xs:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4']) expect(html).toContain(t);
+    for (const t of ['data-product-slug="furadeira"', 'data-search="furadeira"', 'data-categories="ferramentas-e-reparos"', 'grid-cols-1', 'xs:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4']) expect(html).toContain(t);
   });
 });
 

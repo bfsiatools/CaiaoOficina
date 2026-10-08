@@ -42,6 +42,13 @@ export default function SocialCards({ cards }: { cards: readonly CardItem[] }) {
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState(false);
+  const [pointerInside, setPointerInside] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
+  const [timerEpoch, setTimerEpoch] = useState(0);
+  const gesture = useRef<{ x: number; y: number; horizontal: boolean } | null>(null);
+  const suppressClickUntil = useRef(0);
+  const pointerFocus = useRef(false);
   const count = cards.length;
   const visibleCount = Math.min(7, count);
   const half = Math.floor(visibleCount / 2);
@@ -54,10 +61,20 @@ export default function SocialCards({ cards }: { cards: readonly CardItem[] }) {
 
   const cycle = useCallback((step: number, manual = true) => {
     if (count < 2) return;
-    if (manual) setPaused(true);
+    if (manual) setTimerEpoch(value => value + 1);
     direction.current = step;
     setCenterIndex(index => (index + step + count) % count);
   }, [count]);
+
+  useEffect(() => {
+    if (!stage.current) return;
+    const observer = new IntersectionObserver(entries => setInView(entries[0].isIntersecting), { threshold: 0 });
+    observer.observe(stage.current);
+    const visibility = () => setPageVisible(!document.hidden);
+    visibility();
+    document.addEventListener('visibilitychange', visibility);
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', visibility); };
+  }, []);
 
   // Capture initial inline styles once; revert them on unmount (including Strict Mode).
   useEffect(() => {
@@ -109,43 +126,71 @@ export default function SocialCards({ cards }: { cards: readonly CardItem[] }) {
   }, [enhanced, visible, count, half, hovered, reduced]);
 
   useEffect(() => {
-    if (!enhanced || reduced || paused || hovered !== null || focused || count < 2) return;
-    const timer = window.setInterval(() => {
-      if (!document.hidden && stage.current?.getClientRects().length) cycle(1, false);
-    }, 3600);
-    return () => window.clearInterval(timer);
-  }, [enhanced, reduced, paused, hovered, focused, count, cycle]);
+    if (!enhanced || reduced || paused || pointerInside || focused || !inView || !pageVisible || count < 2) return;
+    const timer = window.setTimeout(() => cycle(1, false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [enhanced, reduced, paused, pointerInside, focused, inView, pageVisible, count, cycle, center, timerEpoch]);
 
   if (!count) return null;
   return (
-    <div className="card-fan" data-enhanced={enhanced ? 'true' : undefined}
-      onMouseLeave={() => setHovered(null)} onFocusCapture={event => {
+    <div className="card-fan relative" data-enhanced={enhanced ? 'true' : undefined}
+      onPointerEnter={event => { if (event.pointerType === 'mouse' && matchMedia('(hover: hover)').matches) setPointerInside(true); }}
+      onPointerLeave={() => { setHovered(null); setPointerInside(false); pointerFocus.current = false; }}
+      onPointerDownCapture={() => { pointerFocus.current = true; setFocused(false); }}
+      onPointerUpCapture={() => { pointerFocus.current = false; }}
+      onKeyDownCapture={() => { pointerFocus.current = false; setFocused(true); }}
+      onFocusCapture={event => {
+        if (pointerFocus.current) return;
         setFocused(true);
         const card = (event.target as HTMLElement).closest<HTMLElement>('[data-fan-index]');
-        if (card) { setPaused(true); setCenterIndex(Number(card.dataset.fanIndex)); }
+        if (card) { setTimerEpoch(value => value + 1); setCenterIndex(Number(card.dataset.fanIndex)); }
       }} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
       <div ref={stage} role="region" aria-label="Produtos em destaque" aria-roledescription="carrossel"
-        data-center-id={cards[center].id} className="fan-stage">
+        data-center-id={cards[center].id} data-autoplay-ms="3000" className="fan-stage"
+        onPointerDown={event => {
+          if (event.pointerType !== 'mouse') gesture.current = { x: event.clientX, y: event.clientY, horizontal: false };
+        }}
+        onPointerMove={event => {
+          const start = gesture.current;
+          if (!start) return;
+          const dx = Math.abs(event.clientX - start.x);
+          const dy = Math.abs(event.clientY - start.y);
+          if (dx > 12 && dx > dy * 1.5) {
+            start.horizontal = true;
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }
+        }}
+        onPointerUp={event => {
+          const start = gesture.current;
+          gesture.current = null;
+          if (!start) return;
+          const dx = event.clientX - start.x;
+          if (start.horizontal && Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(event.clientY - start.y) * 1.5) {
+            suppressClickUntil.current = performance.now() + 500;
+            cycle(dx < 0 ? 1 : -1);
+          }
+        }}
+        onPointerCancel={() => { gesture.current = null; }}
+        onClickCapture={event => { if (performance.now() < suppressClickUntil.current) { event.preventDefault(); event.stopPropagation(); } }}>
         {cards.map((card, index) => {
           const image = <div className="relative aspect-[3/4] rounded-card bg-surface"><Image src={card.imgUrl} alt={card.alt ?? ''} fill sizes="(min-width: 768px) 280px, 228px" quality={85} className="object-contain p-4" /></div>;
           return <div key={card.id} data-fan-index={index} className="fan-card" aria-hidden={enhanced && !visible.has(index) ? true : undefined}
-            inert={enhanced && !visible.has(index)} onMouseEnter={() => setHovered(index)}>
+            inert={enhanced && !visible.has(index)} onPointerEnter={event => { if (event.pointerType === 'mouse' && matchMedia('(hover: hover)').matches) setHovered(index); }}>
             {card.content ?? (card.linkUrl ? <a href={card.linkUrl} rel="sponsored nofollow noopener">{image}</a> : image)}
           </div>;
         })}
       </div>
-      {enhanced && count > 1 ? <div className="relative z-30 flex items-center justify-between gap-3 pt-3">
-        <button type="button" disabled={reduced} onClick={() => setPaused(!paused)}
-          aria-label={reduced ? 'Rotação desativada: movimento reduzido' : paused ? 'Iniciar rotação dos destaques' : 'Pausar rotação dos destaques'}
-          className="inline-flex min-h-11 items-center gap-2 rounded-pill px-2 text-sm text-ink-2 disabled:cursor-default">
-          <span aria-hidden="true">{paused || reduced ? '▶' : 'Ⅱ'}</span>{reduced ? 'Navegação manual' : paused ? 'Reproduzir destaques' : 'Pausar destaques'}
+      {enhanced && count > 1 ? <>
+        {!reduced ? <button type="button" onClick={() => setPaused(value => !value)} className="fan-rotation-control sr-only focus:not-sr-only">
+          {paused ? 'Retomar rotação automática' : 'Parar rotação automática'}
+        </button> : null}
+        <button type="button" aria-label="Destaques anteriores" onClick={() => cycle(-1)} className="fan-arrow fan-arrow-prev">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m14 6-6 6 6 6" /></svg>
         </button>
-        <div className="flex items-center gap-3">
-          <button type="button" aria-label="Destaques anteriores" onClick={() => cycle(-1)} className="grid size-11 place-items-center rounded-pill border border-line bg-surface text-xl hover:bg-accent">←</button>
-          <span className="text-caption tabular-nums text-ink-2" aria-live={paused || reduced ? 'polite' : 'off'}>{center + 1} / {count}</span>
-          <button type="button" aria-label="Próximos destaques" onClick={() => cycle(1)} className="grid size-11 place-items-center rounded-pill border border-line bg-surface text-xl hover:bg-accent">→</button>
-        </div>
-      </div> : null}
+        <button type="button" aria-label="Próximos destaques" onClick={() => cycle(1)} className="fan-arrow fan-arrow-next">
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m10 6 6 6-6 6" /></svg>
+        </button>
+      </> : null}
     </div>
   );
 }

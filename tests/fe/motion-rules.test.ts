@@ -9,7 +9,7 @@ describe('banned patterns in the frontend source', () => {
   it.each([
     ['transition-all / transition: all', /transition-all|transition:\s*all/],
     ['zoom disabled', /user-scalable|maximum-scale|maximumScale/],
-    ['unapproved animation libraries', /framer-motion|motion\/react|lottie/],
+    ['unapproved animation libraries', /framer-motion|lottie/],
     ['scale(0) entrance', /scale\(0\)|scale-0\b/],
     ['gradient text', /bg-clip-text/],
     ['raw hex colors in components', /(?:text|bg|border)-\[#[0-9a-fA-F]{3,6}\]/],
@@ -28,6 +28,11 @@ describe('motion', () => {
   it('scopes the requested GSAP dependency to the fan component', () => {
     for (const [path, text] of sources) {
       if (/from ['"]gsap['"]/.test(text)) expect(path.replaceAll('\\', '/')).toBe('src/components/ui/card-fan-carousel.tsx');
+    }
+  });
+  it('scopes the requested Motion springs to the single product grid controller', () => {
+    for (const [path, text] of sources) {
+      if (/from ['"]motion\/react['"]/.test(text)) expect(path.replaceAll('\\', '/')).toBe('src/components/product/product-3d-interaction.tsx');
     }
   });
   it('has the global reduced-motion block and one easing token', () => {

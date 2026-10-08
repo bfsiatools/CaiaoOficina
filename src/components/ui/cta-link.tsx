@@ -15,14 +15,16 @@ const VARIANT: Record<Variant, string> = {
 const SIZE: Record<Size, string> = { md: 'min-h-11 px-3.5 text-sm', lg: 'min-h-[52px] px-4 text-[16px]' };
 
 /** Todo link de saída rastreável do site passa por aqui (produto e WhatsApp). */
-export function CtaLink({ href, rel, target, variant = 'primary', size = 'md', track, className, children }: {
+export function CtaLink({ href, rel, target, label, variant = 'primary', size = 'md', track, className, children }: {
   href: string; rel?: string; target?: '_blank'; variant?: Variant; size?: Size; track: TrackAttrs; className?: string; children: ReactNode;
+  label?: string;
 }) {
   return (
     <a
       href={href}
       rel={rel}
       target={target}
+      aria-label={label}
       data-cta-id={track.ctaId}
       data-event={track.event}
       data-placement={track.placement}
